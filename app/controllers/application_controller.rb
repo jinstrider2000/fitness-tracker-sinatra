@@ -5,7 +5,7 @@ class ApplicationController < Sinatra::Base
   self.apply_global_settings
 
   get "/" do
-    erb :index
+    erb :'index'
   end
 
   get "/signup" do

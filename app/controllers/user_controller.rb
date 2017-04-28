@@ -5,7 +5,7 @@ class UserController < Sinatra::Base
   self.apply_global_settings
 
 	configure do
-		set :method_overrsluge, true
+		set :method_override, true
     use Rack::Flash, :sweep => true
 	end
 
