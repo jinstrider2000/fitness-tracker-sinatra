@@ -10,25 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170421163537) do
+ActiveRecord::Schema.define(version: 20170428152207) do
 
   create_table "exercises", force: :cascade do |t|
-    t.string  "name"
-    t.integer "calories_burned"
-    t.integer "user_id"
+    t.string   "name"
+    t.integer  "calories_burned"
+    t.integer  "user_id"
+    t.datetime "created_on"
+    t.datetime "updated_on"
   end
 
   create_table "foods", force: :cascade do |t|
-    t.string  "name"
-    t.integer "calories"
-    t.integer "user_id"
+    t.string   "name"
+    t.integer  "calories"
+    t.integer  "user_id"
+    t.datetime "created_on"
+    t.datetime "updated_on"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string  "username"
-    t.string  "name"
-    t.string  "password_digest"
-    t.integer "daily_calorie_goal"
+    t.string   "username"
+    t.string   "name"
+    t.string   "password_digest"
+    t.integer  "daily_calorie_goal"
+    t.datetime "created_on"
+    t.datetime "updated_on"
   end
 
 end
