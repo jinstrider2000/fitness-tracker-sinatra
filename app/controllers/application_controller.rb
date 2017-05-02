@@ -13,7 +13,12 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
-
+    if params[:img][:type] =~ /image/
+      file_ext = /image\/(.+)/.match(params[:img][:type])[1]
+      File.open("public/images/profile_pic.#{file_ext}", mode: "w", binmode: true){|file| file.write(File.read(params[:img][:tempfile], binmode: true))}
+    else
+      "You didn't upload an image dummy!!"
+    end
   end
 
   get "/login" do

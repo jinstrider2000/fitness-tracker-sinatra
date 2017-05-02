@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+    extend Slugifiable::ClassMethods
+    include Slugifiable::InstanceMethods
     has_many :foods
     has_many :exercises
     has_secure_password

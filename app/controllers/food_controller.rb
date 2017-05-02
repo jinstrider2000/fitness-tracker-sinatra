@@ -6,8 +6,12 @@ class FoodController < Sinatra::Base
 
 	configure do
 		set :method_override, true
-    use Rack::Flash, :sweep => true
+    # use Rack::Flash, :sweep => true
 	end
+
+  get "/foods" do
+  
+  end
 
   get "/foods/new" do
 
@@ -15,10 +19,6 @@ class FoodController < Sinatra::Base
 
   post "/foods" do
     
-  end
-
-  get "/foods/:id" do
-
   end
 
   get "/foods/:id/edit" do

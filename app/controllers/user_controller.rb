@@ -6,16 +6,8 @@ class UserController < Sinatra::Base
 
 	configure do
 		set :method_override, true
-    use Rack::Flash, :sweep => true
+    # use Rack::Flash, :sweep => true
 	end
-
-  get "/users/new" do
-
-  end
-
-  post "/users" do
-    
-  end
 
   get "/users/:slug" do
 

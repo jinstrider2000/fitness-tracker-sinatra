@@ -6,8 +6,12 @@ class ExerciseController < Sinatra::Base
 
 	configure do
 		set :method_override, true
-    use Rack::Flash, :sweep => true
+    # use Rack::Flash, :sweep => true
 	end
+
+  get "/exercises" do
+  
+  end
 
   get "/exercises/new" do
 
@@ -15,10 +19,6 @@ class ExerciseController < Sinatra::Base
 
   post "/exercises" do
     
-  end
-
-  get "/exercises/:id" do
-
   end
 
   get "/exercises/:id/edit" do
