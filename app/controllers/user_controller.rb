@@ -10,19 +10,15 @@ class UserController < Sinatra::Base
 	end
 
   get "/users/:slug" do
-
+    erb :'users/show'
   end
 
   get "/users/:slug/edit" do
-    
+    erb :'users/edit'
   end
 
   patch "/users/:slug" do
-    
-  end
-
-  delete "/users/:slug" do
-    
+    redirect "/users/#{current_user.slug}"
   end
 
 end

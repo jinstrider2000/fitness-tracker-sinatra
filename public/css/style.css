@@ -45,14 +45,44 @@ main
 	font-family: "Montserrat", sans-serif;
 }
 
-#profile-pic
+.profile-pic-select
 {
 	vertical-align: bottom;
 	height: 140px;
 	width: 140px;
 }
 
-#img-upload
+.profile-pic-display
+{
+	vertical-align: middle;
+	height: 140px;
+	width: 140px;
+}
+
+.img-upload-btn
 { 
 	display: inline;
+}
+
+label[for="acct-dropdown"] > img
+{
+	width: 48px;
+	height: 48px;
+}
+
+.profile-pic-display + h2
+{
+	display: inline-block;
+}
+
+.more-link
+{
+	display: block;
+	text-align: right;
+}
+
+.card-style
+{
+	border: 1px solid rgb(207,220,232);
+	box-shadow: 2px 1px 3px 1px rgb(180,180,180);
 }

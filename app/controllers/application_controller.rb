@@ -5,7 +5,11 @@ class ApplicationController < Sinatra::Base
   self.apply_global_settings
 
   get "/" do
-    erb :index
+    if logged_in?
+      redirect "/users/#{current_user.slug}"
+    else
+      erb :landing
+    end
   end
 
   get "/signup" do
@@ -30,7 +34,7 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/logout" do
-    session.delete(:id)
+    session.clear
     redirect '/'
   end
 
