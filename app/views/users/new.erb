@@ -1,5 +1,8 @@
 <div class="container">
 	<h2>Register</h2>
+	<% if flash.has(:calorie_error) %>
+		<span class="error-msg"> <%=flash[:calorie_error]%></span>
+	<% end %>
 	<form enctype="multipart/form-data" action="/signup" method="POST">
 		<div class="row">
 			<div class="col-sm-5">
@@ -10,9 +13,6 @@
 		<div class="row">
 			<input class="col-sm-5" type="text" name="user[name]" required placeholder="Full Name">
 			<input class="col-sm-5 col-sm-offset-2" type="text" name="user[daily_calorie_goal]" required placeholder="Daily Calorie Goal">
-			<% if flash.has(:calorie_error) %>
-				<span class="error-msg"> <%=flash[:calorie_error]%></span>
-			<% end %>
 		</div>
 		<div class="row">
 			<input class="col-sm-5" type="text" name="user[username]" required placeholder="Username">
