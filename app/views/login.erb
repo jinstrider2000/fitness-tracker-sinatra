@@ -1,11 +1,12 @@
 <div class="container">
   <h2>Login</h2>
+  <%="<span class=\"error-msg\"><#{flash[:error]}></span>" if flash.has?(:error) %>
   <form action="/login" method="POST">
     <div class="row">
-      <input class="col-sm-5" type="text" name="user[username]" placeholder="Username">
+      <input class="col-sm-5" type="text" name="username" required placeholder="Username">
     </div>
     <div class="row">
-      <input class="col-sm-5" type="password" name="user[password]" placeholder="Password">
+      <input class="col-sm-5" type="password" name="password" required placeholder="Password">
     </div>
     <input type="submit" value="Login">
   </form>

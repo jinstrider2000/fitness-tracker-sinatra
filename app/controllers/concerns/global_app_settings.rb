@@ -3,8 +3,8 @@ module GlobalAppSettings
         configure do
             set :views, 'app/views'
             set :public_folder, 'public'
-            # set :sessions, true
-            # set :session_secret, "fitness_tracker_efrain"
+            set :sessions, true
+            set :session_secret, "fitness_tracker_efrain"
         end
     end
 end

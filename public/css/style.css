@@ -86,3 +86,8 @@ label[for="acct-dropdown"] > img
 	border: 1px solid rgb(207,220,232);
 	box-shadow: 2px 1px 3px 1px rgb(180,180,180);
 }
+
+.error-msg
+{
+	color: red;
+}

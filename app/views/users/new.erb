@@ -1,13 +1,15 @@
 <div class="container">
 	<h2>Register</h2>
-	<% if flash.has(:calorie_error) %>
-		<span class="error-msg"> <%=flash[:calorie_error]%></span>
+	<% if flash.has?(:calorie_error) || flash.has?(:username_error) || flash.has?(:image_error) %>
+		<%="<span class=\"error-msg\">#{flash[:calorie_error]}</span>" if flash.has?(:calorie_error) %>
+		<%="<span class=\"error-msg\">#{flash[:username_error]}</span>" if flash.has?(:username_error) %>
+		<%="<span class=\"error-msg\">#{flash[:image_error]}</span>" if flash.has?(:image_error) %>
 	<% end %>
 	<form enctype="multipart/form-data" action="/signup" method="POST">
 		<div class="row">
 			<div class="col-sm-5">
-				<img class="profile-pic-select" src="images/users/generic/profile_pic" alt="Generic Profile Pic">
-				<input class="img-upload-btn" type="file" name="profile-img" accept="images/*">
+				<img class="profile-pic-select" src="images/users/generic/profile_pic.png" alt="Generic Profile Pic">
+				<input class="img-upload-btn" type="file" name="profile_img" accept="images/*">
 			</div>
 		</div>
 		<div class="row">
