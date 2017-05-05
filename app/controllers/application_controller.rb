@@ -21,12 +21,12 @@ class ApplicationController < Sinatra::Base
 
   post "/signup" do
     if !!User.find_by(username: params[:user][:username])
-      binding.pry
+      # binding.pry
       flash[:username_error] = "That username is already taken."
     end
 
     unless params[:user][:daily_calorie_goal] =~ /\A\d+\Z/
-      binding.pry
+      # binding.pry
       flash[:calorie_error] = "Enter a numerical value for your daily calorie goal."
     end
 
