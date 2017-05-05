@@ -8,6 +8,7 @@ class ApplicationController < Sinatra::Base
     if logged_in?
       redirect "/users/#{current_user.slug}"
     else
+      @nav = {:exercise => {:status => ""}, :nutrition => {:status => ""}}
       erb :landing
     end
   end
@@ -17,6 +18,11 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/signup" do
+    if condition
+      
+    else
+      
+    end
     if params[:img][:type] =~ /image/
       file_ext = /image\/(.+)/.match(params[:img][:type])[1]
       File.open("public/images/profile_pic.#{file_ext}", mode: "w", binmode: true){|file| file.write(File.read(params[:img][:tempfile], binmode: true))}
@@ -26,11 +32,16 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/login" do
-    erb :login
+    if logged_in?
+      redirect "/users/#{current_user.slug}"
+    else
+      @nav = {:exercise => {:status => ""}, :nutrition => {:status => ""}}
+      erb :login
+    end
   end
 
   post "/login" do
-    
+
   end
 
   get "/logout" do
