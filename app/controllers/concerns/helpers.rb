@@ -85,61 +85,8 @@ module Helpers
         </div>
         </div>
         HTML
-      else
-        output_buffer
       end
+      output_buffer
     end
-
-    # def display_all_exercises_by_date
-    #   output_buffer = ""
-    #   first_two = current_user.exercises.first(2)
-    #   if first_two.size >= 1
-    #     iterator_start = first_two[1].id if first_two.size == 2
-    #     current_date = print_time(first_two[0].created_at)
-    #     output_buffer << <<-HTML
-    #     <div class="row">
-    #     <div class="col-sm-3 card-style">
-    #     <h3>#{current_date}</h3>
-    #     <a href="/exercises/#{first_two[0].id}">#{first_two[0].name} - #{first_two[0].calories_burned}</a>
-    #     HTML
-    #     column_inserted_count = 1
-    #     if first_two.size == 2
-    #       current_user.exercises.find_each(start: iterator_start) do |exercise|
-    #         if current_date != print_time(exercise.created_at)
-    #           current_date = print_time(exercise.created_at)
-    #           if column_inserted_count % 5 == 0
-    #             output_buffer << <<-HTML
-    #             </div>
-    #             </div>
-    #             <div class="row">
-    #             <div class="col-sm-3 card-style">
-    #             <h3>#{current_date}</h3>
-    #             <a href="/exercises/#{exercise.id}">#{exercise.name} - #{exercise.calories_burned}</a>
-    #             HTML
-    #             column_inserted_count += 1
-    #           else
-    #             output_buffer << <<-HTML
-    #             </div>
-    #             <div class="col-sm-3 card-style">
-    #             <h3>#{current_date}</h3>
-    #             <a href="/exercises/#{exercise.id}">#{exercise.name} - #{exercise.calories}</a>
-    #             HTML
-    #             column_inserted_count += 1
-    #           end
-    #         else
-    #           output_buffer << <<-HTML
-    #           <a href="/exercises/#{exercise.id}">#{exercise.name} - #{exercise.calories}</a>
-    #           HTML
-    #         end
-    #       end
-    #     end
-    #     output_buffer << <<-HTML
-    #     </div>
-    #     </div>
-    #     HTML
-    #   else
-    #     output_buffer
-    #   end
-    # end
 
 end
