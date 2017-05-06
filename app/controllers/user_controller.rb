@@ -10,10 +10,13 @@ class UserController < Sinatra::Base
 	end
 
   get "/users/:slug" do
+    @title = "#{first_name(current_user.name)}'s Stats"
+    @nav = {:exercise => {:status => ""}, :nutrition => {:status => ""}}
     erb :'users/show'
   end
 
   get "/users/:slug/edit" do
+    @nav = {:exercise => {:status => ""}, :nutrition => {:status => ""}}
     erb :'users/edit'
   end
 
