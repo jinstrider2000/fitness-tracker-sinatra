@@ -34,7 +34,7 @@ class UserController < Sinatra::Base
 
   get "/users/:slug/exercises" do
     # Update soon...
-     @user = User.find_by(slug: params[:slug])
+    @user = User.find_by(slug: params[:slug])
     if !!@user
       @title = viewing_own_profile_while_logged_in?(@user) ? "My Stats" : "#{first_name(@user.name)}'s Stats"
       @nav = {:exercise => {:status => "active"}, :nutrition => {:status => ""}}
