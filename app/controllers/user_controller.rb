@@ -33,7 +33,6 @@ class UserController < Sinatra::Base
   end
 
   get "/users/:slug/exercises" do
-    # Update soon...
     @user = User.find_by(slug: params[:slug])
     if !!@user
       @title = viewing_own_profile_while_logged_in?(@user) ? "My Stats" : "#{first_name(@user.name)}'s Stats"
@@ -46,7 +45,6 @@ class UserController < Sinatra::Base
   end
   
   get "/users/:slug/foods" do
-    # Update soon...
      @user = User.find_by(slug: params[:slug])
     if !!@user
       @title = viewing_own_profile_while_logged_in?(@user) ? "My Stats" : "#{first_name(@user.name)}'s Stats"
@@ -59,6 +57,7 @@ class UserController < Sinatra::Base
   end
 
   patch "/users/:slug" do
+    User.find_by(slug: params[:slug]).update(params[:user], slug: User.create_slug(params[:user][:name]))
     redirect "/users/#{current_user.slug}"
   end
 
