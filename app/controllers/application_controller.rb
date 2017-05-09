@@ -1,17 +1,20 @@
 class ApplicationController < Sinatra::Base
   extend GlobalAppSettings
-  include Helpers
 
   self.apply_global_settings
 
   get "/" do
     if logged_in?
-      redirect "/users/#{current_user.slug}"
+      redirect "/recent-activity"
     else
       @title = "Fitness Tracker"
       @nav = {:exercise => {:status => ""}, :nutrition => {:status => ""}}
       erb :landing
     end
+  end
+
+  get "/recent-activity" do
+
   end
 
   get "/signup" do
@@ -39,18 +42,18 @@ class ApplicationController < Sinatra::Base
       # binding.pry
       redirect '/signup'
     else
-      temp_user = User.create(params[:user])
-      Dir.mkdir(File.join(Dir.pwd,"public","images","#{temp_user.id}"))
+      temp_user = User.create(params[:user], slug: User.create_slug(params[:user][:name]))
+      Dir.mkdir(File.join(Dir.pwd,"public","images","users","#{temp_user.id}"))
       if !!params[:profile_img]
         file_ext = /image\/(.+)/.match(params[:profile_img][:type])[1]
         File.open("public/images/#{temp_user.id}/profile_pic.#{file_ext}", mode: "w", binmode: true){|file| file.write(File.read(params[:profile_img][:tempfile], binmode: true))}
         redirect "/users/#{temp_user.slug}"
       else
-        File.open("public/images/#{temp_user.id}/profile_pic.png", mode: "w", binmode: true){|file| file.write(File.open("public/images/users/generic/profile_pic.png", mode: "r", binmode: true))}
+        File.open("public/images/users/#{temp_user.id}/profile_pic.png", mode: "w", binmode: true){|file| file.write(File.read("public/images/users/generic/profile_pic.png", binmode: true))}
       end
-      session[:id] = temp_user.id
-      binding.pry
-      redirect "/users/#{temp_user.slug}"
+      session[:id] = temp_user.id if !logged_in?
+      # binding.pry
+      redirect "/recent-activity"
     end
   end
 

@@ -1,6 +1,5 @@
 class ExerciseController < Sinatra::Base
   extend GlobalAppSettings
-  include Helpers
 
   self.apply_global_settings
 
@@ -8,10 +7,6 @@ class ExerciseController < Sinatra::Base
 		set :method_override, true
     use Rack::Flash, :sweep => true
 	end
-
-  get "/exercises" do
-  
-  end
 
   get "/exercises/new" do
 

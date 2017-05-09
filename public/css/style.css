@@ -15,8 +15,6 @@ body
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f3f4', endColorstr='#d1d4d6',GradientType=0 ); /* IE6-9 */ 
 }
 
-
-
 h1, h2, h3, h4, h5, h6
 {
 	font-family: "Montserrat", sans-serif;
@@ -40,6 +38,11 @@ main
 	padding-top: 25px;
 }
 
+.row
+{
+	margin-bottom: 10px;
+}
+
 .navbar-brand
 {
 	font-family: "Montserrat", sans-serif;
@@ -52,16 +55,15 @@ main
 	width: 140px;
 }
 
-.profile-pic-display
+.profile-pic-select + input[type="file"]
 {
-	vertical-align: middle;
-	height: 140px;
-	width: 140px;
+	display: inline-block;
 }
 
-.img-upload-btn
-{ 
-	display: inline;
+.profile-pic-display
+{
+	height: 140px;
+	width: 140px;
 }
 
 label[for="acct-dropdown"] > img

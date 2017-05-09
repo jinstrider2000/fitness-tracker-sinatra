@@ -8,17 +8,27 @@
 	<form enctype="multipart/form-data" action="/signup" method="POST">
 		<div class="row">
 			<div class="col-sm-5">
-				<img class="profile-pic-select" src="images/users/generic/profile_pic.png" alt="Generic Profile Pic">
+				<img class="profile-pic-select" src="<%=url("images/users/generic/profile_pic.png")%>" alt="Generic Profile Pic">
 				<input class="img-upload-btn" type="file" name="profile_img" accept="images/*">
 			</div>
 		</div>
 		<div class="row">
-			<input class="col-sm-5" type="text" name="user[name]" required placeholder="Full Name">
-			<input class="col-sm-5 col-sm-offset-2" type="text" name="user[daily_calorie_goal]" required placeholder="Daily Calorie Goal">
+			<div class="col-sm-6">
+				<label for="name-input">Name</label>
+				<input id="name-input" type="text" name="user[name]" required placeholder="Full Name">
+			</div>
+			<div class="col-sm-6">
+				<label for="calorie-input">Calorie Goal</label>
+				<input id="calorie-input" type="text" name="user[daily_calorie_goal]" required placeholder="Daily Calorie Goal">
+			</div>
 		</div>
 		<div class="row">
-			<input class="col-sm-5" type="text" name="user[username]" required placeholder="Username">
-			<input class="col-sm-5 col-sm-offset-2" type="password" name="user[password]" required placeholder="Password">
+			<div class="col-sm-6">
+				<input id="usrnme-input" type="text" name="user[username]" required placeholder="Username">
+			</div>
+			<div class="col-sm-6">
+				<input id="pswrd-input" type="password" name="user[password]" required placeholder="Password">
+			</div>
 		</div>
 		<input type="submit" value="Register">
 	</form>

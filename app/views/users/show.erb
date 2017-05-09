@@ -1,29 +1,43 @@
 <div class="container">
 	<div class="row">
 		<div class="col-sm-8">
-			<img class="profile-pic-display img-circle" src="images/users/<%=current_user.id%>/profile_pic" alt="<%=first_name(current_user.name)%>'s Profile Pic">
-			<h2>Welcome <%=first_name(current_user.name)%>!</h2>
-			<a href="/users/<%=current_user.slug%>/edit">Edit</a>
+			<img class="profile-pic-display img-circle" src="<%=profile_pic_path(@user)%>" alt="<%=first_name(@user.name)%>'s Profile Pic">
+			<% <% if viewing_own_profile_while_logged_in? %>
+				<h2>Welcome <%=first_name(@user.name)%>!</h2>
+				<a href="/users/<%=@user.slug%>/edit">Edit</a>
+			<% else %>
+				<h2><%=@user.name%></h2>
+			<% end %>%>
+			
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-sm-5 card-style">
 			<h3>Recent Exercises</h3>
-			<ul>
-			<% recent_exercises.each do |exercise| %>
-				<li><%=print_time(exercise.created_at)%> - <%=exercise.name%> - <em><%=exercise.calories_burned%></em></li>
+			<% if @user.exercises.count < 1 %>
+				<p>No Activity</p>
+			<% else %>
+				<ul>
+				<% recent_exercises(@user).each do |exercise| %>
+					<li><%=print_time(exercise.created_at)%> - <%=exercise.name%> - <em><%=exercise.calories_burned%></em></li>
+				<% end %>
+				</ul>
+				<a class="more-link" href="users/<%=@user.slug%>/exercises">more</a>
 			<% end %>
-			</ul>
-			<a class="more-link" href="/exercises">more</a>
 		</div>
 		<div class="col-sm-5 col-sm-offset-2 card-style">
 			<h3>Recent Meals</h3>
-			<ul>
-			<% recent_meals.each do |food| %>
-				<li><%=print_time(food.created_at)%> - <%=food.name%> - <em><%=food.calories_burned%></em></li>
+			<% if @user.foods.count < 1 %>
+				<p>No Activity</p>
+			<% else %>
+				<ul>
+				<% recent_meals(@user).each do |food| %>
+					<li><%=print_time(food.created_at)%> - <%=food.name%> - <em><%=food.calories</em></li>
+				<% end %>
+				</ul>
+				<a class="more-link" href="users/<%=@user.slug%>/foods">more</a>
 			<% end %>
-			</ul>
-			<a class="more-link" href="/foods">more</a>
+			
 		</div>
 	</div>
 </div>

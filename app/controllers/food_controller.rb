@@ -1,6 +1,5 @@
 class FoodController < Sinatra::Base
   extend GlobalAppSettings
-  include Helpers
 
   self.apply_global_settings
 
