@@ -42,7 +42,8 @@ class ApplicationController < Sinatra::Base
       # binding.pry
       redirect '/signup'
     else
-      temp_user = User.create(params[:user], slug: User.create_slug(params[:user][:name]))
+      temp_user = User.create(params[:user])
+      temp_user.create_slug
       Dir.mkdir(File.join(Dir.pwd,"public","images","users","#{temp_user.id}"))
       if !!params[:profile_img]
         file_ext = /image\/(.+)/.match(params[:profile_img][:type])[1]
@@ -51,7 +52,7 @@ class ApplicationController < Sinatra::Base
       else
         File.open("public/images/users/#{temp_user.id}/profile_pic.png", mode: "w", binmode: true){|file| file.write(File.read("public/images/users/generic/profile_pic.png", binmode: true))}
       end
-      session[:id] = temp_user.id if !logged_in?
+      # session[:id] = temp_user.id if !logged_in?
       # binding.pry
       redirect "/recent-activity"
     end

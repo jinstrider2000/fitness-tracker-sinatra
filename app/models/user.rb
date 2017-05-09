@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-    extend Slugifiable
+    include Slugifiable
     has_many :foods
     has_many :exercises
     has_secure_password

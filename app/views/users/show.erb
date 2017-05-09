@@ -2,12 +2,12 @@
 	<div class="row">
 		<div class="col-sm-8">
 			<img class="profile-pic-display img-circle" src="<%=profile_pic_path(@user)%>" alt="<%=first_name(@user.name)%>'s Profile Pic">
-			<% <% if viewing_own_profile_while_logged_in? %>
+			<% if viewing_own_profile_while_logged_in?(@user) %>
 				<h2>Welcome <%=first_name(@user.name)%>!</h2>
 				<a href="/users/<%=@user.slug%>/edit">Edit</a>
 			<% else %>
 				<h2><%=@user.name%></h2>
-			<% end %>%>
+			<% end %>
 			
 		</div>
 	</div>
@@ -32,12 +32,11 @@
 			<% else %>
 				<ul>
 				<% recent_meals(@user).each do |food| %>
-					<li><%=print_time(food.created_at)%> - <%=food.name%> - <em><%=food.calories</em></li>
+					<li><%=print_time(food.created_at)%> - <%=food.name%> - <em><%=food.calories%></em></li>
 				<% end %>
 				</ul>
 				<a class="more-link" href="users/<%=@user.slug%>/foods">more</a>
 			<% end %>
-			
 		</div>
 	</div>
 </div>

@@ -101,7 +101,8 @@ module FitnessTracker
     end
 
     def profile_pic_path(user)
-      profile_pic_file = Dir.glob(File.join("images","users","#{user.id}","profile_pic.*")).first.match(/(?<=\/)profile_pic.+/)[0]
+      # binding.pry
+      profile_pic_file = Dir.glob(File.join("public","images","users","#{user.id}","profile_pic.*")).first.match(/(?<=\/)profile_pic.+/)[0]
       url("images/users/#{user.id}/#{profile_pic_file}")
     end
   end
