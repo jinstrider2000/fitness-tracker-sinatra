@@ -23,7 +23,7 @@ class UserController < Sinatra::Base
 
   get "/users/:slug/edit" do
     @user = User.find_by(slug: params[:slug])
-    if logged_in? && viewing_own_profile_while_logged_in?(@user)) 
+    if logged_in? && viewing_own_profile_while_logged_in?(@user)
       @nav = {:exercise => {:status => ""}, :nutrition => {:status => ""}}
       erb :'users/edit'
     else
@@ -36,7 +36,7 @@ class UserController < Sinatra::Base
     # Update soon...
      @user = User.find_by(slug: params[:slug])
     if !!@user
-      @title = viewing_own_profile_while_logged_in?(@user)) ? "My Stats" : "#{first_name(@user.name)}'s Stats"
+      @title = viewing_own_profile_while_logged_in?(@user) ? "My Stats" : "#{first_name(@user.name)}'s Stats"
       @nav = {:exercise => {:status => "active"}, :nutrition => {:status => ""}}
       erb :'exercises/index'
     else
@@ -46,10 +46,10 @@ class UserController < Sinatra::Base
   end
   
   get "/users/:slug/foods" do
-    # Update soon
+    # Update soon...
      @user = User.find_by(slug: params[:slug])
     if !!@user
-      @title = viewing_own_profile_while_logged_in?(@user)) ? "My Stats" : "#{first_name(@user.name)}'s Stats"
+      @title = viewing_own_profile_while_logged_in?(@user) ? "My Stats" : "#{first_name(@user.name)}'s Stats"
       @nav = {:exercise => {:status => ""}, :nutrition => {:status => "active"}}
       erb :'foods/index'
     else
