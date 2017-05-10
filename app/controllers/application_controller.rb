@@ -24,36 +24,31 @@ class ApplicationController < Sinatra::Base
 
   post "/signup" do
     if !!User.find_by(username: params[:user][:username])
-      # binding.pry
-      flash[:username_error] = "That username is already taken."
+      flash[:username_error] = "* That username is already taken."
     end
 
     unless params[:user][:daily_calorie_goal] =~ /\A\d+\Z/
-      # binding.pry
-      flash[:calorie_error] = "Enter a numerical value for your daily calorie goal."
+      flash[:calorie_error] = "* Enter a numerical value for your daily calorie goal."
     end
-
-    if params[:profile_img] && !params[:profile_img][:type] =~ /image/
-      # binding.pry
-      flash[:image_error] = "Please upload an image."
+    
+    if !!params[:profile_img] && !(params[:profile_img][:type] =~ /image/)
+      flash[:image_error] = "* Please upload an image."
     end
 
     if flash.has?(:username_error) || flash.has?(:calorie_error) || flash.has?(:image_error)
-      # binding.pry
       redirect '/signup'
     else
       temp_user = User.create(params[:user])
-      temp_user.create_slug
+      # temp_user.create_slug
       Dir.mkdir(File.join(Dir.pwd,"public","images","users","#{temp_user.id}"))
       if !!params[:profile_img]
-        file_ext = /(?<=\.).+/.match(params[:profile_img][:filename])[0]
-        File.open("public/images/users/#{temp_user.id}/profile_pic.#{file_ext}", mode: "w", binmode: true){|file| file.write(File.read(params[:profile_img][:tempfile], binmode: true))}
+        file_ext = File.extname(params[:profile_img][:filename])
+        File.open("public/images/users/#{temp_user.id}/profile_pic#{file_ext}", mode: "w", binmode: true){|file| file.write(File.read(params[:profile_img][:tempfile], binmode: true))}
         redirect "/users/#{temp_user.slug}"
       else
         File.open("public/images/users/#{temp_user.id}/profile_pic.png", mode: "w", binmode: true){|file| file.write(File.read("public/images/users/generic/profile_pic.png", binmode: true))}
       end
-      # session[:id] = temp_user.id if !logged_in?
-      # binding.pry
+      session[:id] = temp_user.id if !logged_in?
       redirect "/recent-activity"
     end
   end
@@ -73,7 +68,7 @@ class ApplicationController < Sinatra::Base
       session[:id] = user.id
       redirect "/users/#{current_user.slug}"
     else
-      flash[:error] = "Username or password incorrect"
+      flash[:error] = "* Username or password incorrect"
       redirect '/login'
     end
   end

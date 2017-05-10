@@ -1,4 +1,4 @@
-class CreateExercises < ActiveRecord::Migration[5.0]
+class CreateExercises < ActiveRecord::Migration
   def change
     create_table :exercises do |t|
       t.string :name

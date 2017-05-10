@@ -104,8 +104,8 @@ main
 
 .mini-pic-display
 {
-	height: 48px;
-	width: 48px;
+	height: 40px;
+	width: 40px;
 }
 
 .profile-pic-display
@@ -136,6 +136,11 @@ main
 	color: red;
 }
 
+#error-pic
+{
+	width: 50%;
+}
+
 @media (max-width: 768px)
 {
 	footer
@@ -159,4 +164,3 @@ main
 	}
 	
 }
-
