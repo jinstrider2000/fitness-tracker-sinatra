@@ -1,5 +1,5 @@
 class UserController < Sinatra::Base
-  extend GlobalAppSettings
+  extend FitnessTracker::GlobalAppSettings
 
   self.apply_global_settings
 

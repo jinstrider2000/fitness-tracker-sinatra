@@ -1,5 +1,5 @@
 class ApplicationController < Sinatra::Base
-  extend GlobalAppSettings
+  extend FitnessTracker::GlobalAppSettings
 
   self.apply_global_settings
 
@@ -46,8 +46,8 @@ class ApplicationController < Sinatra::Base
       temp_user.create_slug
       Dir.mkdir(File.join(Dir.pwd,"public","images","users","#{temp_user.id}"))
       if !!params[:profile_img]
-        file_ext = /image\/(.+)/.match(params[:profile_img][:type])[1]
-        File.open("public/images/#{temp_user.id}/profile_pic.#{file_ext}", mode: "w", binmode: true){|file| file.write(File.read(params[:profile_img][:tempfile], binmode: true))}
+        file_ext = /(?<=\.).+/.match(params[:profile_img][:filename])[0]
+        File.open("public/images/users/#{temp_user.id}/profile_pic.#{file_ext}", mode: "w", binmode: true){|file| file.write(File.read(params[:profile_img][:tempfile], binmode: true))}
         redirect "/users/#{temp_user.slug}"
       else
         File.open("public/images/users/#{temp_user.id}/profile_pic.png", mode: "w", binmode: true){|file| file.write(File.read("public/images/users/generic/profile_pic.png", binmode: true))}
