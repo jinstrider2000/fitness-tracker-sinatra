@@ -67,12 +67,12 @@ main
 .navbar-brand
 {
 	font-family: "Montserrat", sans-serif;
-	border-right: 1px solid rgb(180,180,180)
+	border-right: 1px solid rgb(180,180,180);
 }
 
 .navbar-left > li
 {
-	border-right: 1px solid rgb(180,180,180)
+	border-right: 1px solid rgb(180,180,180);
 }
 
 .navbar-right .dropdown-menu
@@ -104,25 +104,47 @@ main
 
 .mini-pic-display
 {
-	height: 40px;
-	width: 40px;
+	margin-top: 2px;
+	height: 45px;
+	width: 45px;
 }
 
 .profile-pic-display
 {
 	height: 140px;
 	width: 140px;
+	vertical-align: top;
 }
 
-.profile-pic-display + h2
+#calorie-goal-display
+{
+	position: absolute;
+	left: 170px;
+	top: 50px;
+}
+
+.profile-pic-display + h2, .index-icon + h2
 {
 	display: inline-block;
+	margin-left: 10px;
+}
+
+.index-icon
+{
+	display: inline-block;
+	min-width: 100px;
+	max-width: 150px;
+}
+
+.mini-index-icon
+{
+	height: 45px;
+	widows: 45px;
 }
 
 .more-link
 {
-	display: block;
-	text-align: right;
+	float: right;
 }
 
 .card-style
@@ -139,6 +161,18 @@ main
 #error-pic
 {
 	width: 50%;
+}
+
+.index-style, a.index-style:active
+{
+	font: 16px "Open Sans", sans-serif;
+	color: black;
+}
+
+a.index-style:hover
+{
+	text-decoration: none;
+	color: grey;
 }
 
 @media (max-width: 768px)
@@ -162,5 +196,42 @@ main
 	{
 		display: none;
 	}
-	
+
+	.profile-pic-display
+	{
+		width: 160px;
+		height: 160px;
+		display: block;
+		margin: 0 auto;
+	}
+
+	.profile-pic-display + h2, .index-icon + h2
+	{
+		display: none;
+	}
+
+	.profile-pic-display + h2 + a
+	{
+		font-size: 18px;
+		position: absolute;
+		bottom: 0;
+		right: 15px;
+	}
+
+	#calorie-goal-display
+	{
+		position: static;
+		text-align: center;
+	}
+
+	.more-link
+	{
+		font-size: 18px;
+	}
+
+	.index-style
+	{
+		font-size: 20px;
+	}
+
 }

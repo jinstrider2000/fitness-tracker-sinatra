@@ -1,6 +1,6 @@
 <div class="container">
   <h1>Login</h1>
-  <%="<span class=\"error-msg\">#{flash[:error]}</span>" if flash.has?(:error) %>
+  <%="<span class=\"error-msg\">#{flash[:error]}</span>" if flash.has?(:not_found_error) %>
   <form action="/login" method="POST">
     <div class="form-group">
       <label for="username-input">Username</label>

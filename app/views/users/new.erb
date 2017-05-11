@@ -4,12 +4,13 @@
 		<%="<p class=\"error-msg\">#{flash[:calorie_error]}</p>" if flash.has?(:calorie_error) %>
 		<%="<p class=\"error-msg\">#{flash[:username_error]}</p>" if flash.has?(:username_error) %>
 		<%="<p class=\"error-msg\">#{flash[:image_error]}</p>" if flash.has?(:image_error) %>
+		<%="<p class=\"error-msg\">#{flash[:invalid_error]}</p>" if flash.has?(:calorie_error) %>
 	<% end %>
 	<form enctype="multipart/form-data" action="/signup" method="POST">
 		<div class="row">
 			<div class="col-sm-12">
 				<img class="profile-pic-select" src="<%=url("images/users/generic/profile_pic.png")%>" alt="Generic Profile Pic">
-				<input class="img-upload-btn" type="file" name="profile_img" accept="images/*">
+				<input class="img-upload-btn" type="file" name="profile_img" accept="image/*">
 			</div>
 		</div>
 		<div class="row">

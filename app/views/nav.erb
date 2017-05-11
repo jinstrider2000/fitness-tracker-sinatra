@@ -15,8 +15,8 @@
 		<div class="collapse navbar-collapse" id="main_nav">
 			<ul class="nav navbar-nav navbar-left">
 				<% if logged_in? %>
-					<li class="<%=@nav[:exercise][:status]%>"><a href="<%="/users/#{current_user.name}/exercises"%>">Exercise<%="<span class=\"sr-only\"> (current)</span>" if @nav[:exercise][:status] == "active"%></a></li>
-					<li class="<%=@nav[:nutrition][:status]%>"><a href="<%="/users/#{current_user.name}/foods"%>">Nutrition<%="<span class=\"sr-only\"> (current)</span>" if @nav[:nutrition][:status] == "active"%></a></li>
+					<li class="<%=@nav[:exercise][:status]%>"><a href="<%="/users/#{current_user.slug}/exercises"%>">Exercise<%="<span class=\"sr-only\"> (current)</span>" if @nav[:exercise][:status] == "active"%></a></li>
+					<li class="<%=@nav[:nutrition][:status]%>"><a href="<%="/users/#{current_user.slug}/foods"%>">Nutrition<%="<span class=\"sr-only\"> (current)</span>" if @nav[:nutrition][:status] == "active"%></a></li>
 				<% else %>
 					<li class="<%=@nav[:exercise][:status]%>"><a href="/login">Exercise<%="<span class=\"sr-only\"> (current)</span>" if @nav[:exercise][:status] == "active"%></a></li>
 					<li class="<%=@nav[:nutrition][:status]%>"><a href="/login">Nutrition<%="<span class=\"sr-only\"> (current)</span>" if @nav[:nutrition][:status] == "active"%></a></li>

@@ -10,9 +10,9 @@ class UserController < Sinatra::Base
 
   get "/users/:slug" do
     @user = User.find_by(slug: params[:slug])
-    if !!@user
+    @nav = {:exercise => {:status => ""}, :nutrition => {:status => ""}}
+    if @user
       @title = viewing_own_profile_while_logged_in?(@user) ? "My Stats" : "#{first_name(@user.name)}'s Stats"
-      @nav = {:exercise => {:status => ""}, :nutrition => {:status => ""}}
       erb :'users/show'
     else
       flash[:error] = "The user you are looking for doesn't exist"

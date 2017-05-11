@@ -18,12 +18,16 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/signup" do
-    @nav = {:exercise => {:status => ""}, :nutrition => {:status => ""}}
-    erb :'users/new'
+    if !logged_in?
+      @nav = {:exercise => {:status => ""}, :nutrition => {:status => ""}}
+      erb :'users/new'
+    else
+      redirect "/users/#{current_user.slug}"
+    end
   end
 
   post "/signup" do
-    if !!User.find_by(username: params[:user][:username])
+    if User.find_by(username: params[:user][:username])
       flash[:username_error] = "* That username is already taken."
     end
 
@@ -31,7 +35,7 @@ class ApplicationController < Sinatra::Base
       flash[:calorie_error] = "* Enter a numerical value for your daily calorie goal."
     end
     
-    if !!params[:profile_img] && !(params[:profile_img][:type] =~ /image/)
+    if params[:profile_img] && !(params[:profile_img][:type] =~ /image/)
       flash[:image_error] = "* Please upload an image."
     end
 
@@ -39,17 +43,22 @@ class ApplicationController < Sinatra::Base
       redirect '/signup'
     else
       temp_user = User.create(params[:user])
-      # temp_user.create_slug
-      Dir.mkdir(File.join(Dir.pwd,"public","images","users","#{temp_user.id}"))
-      if !!params[:profile_img]
-        file_ext = File.extname(params[:profile_img][:filename])
-        File.open("public/images/users/#{temp_user.id}/profile_pic#{file_ext}", mode: "w", binmode: true){|file| file.write(File.read(params[:profile_img][:tempfile], binmode: true))}
-        redirect "/users/#{temp_user.slug}"
+      if temp_user.valid?
+        temp_user.create_slug
+        profile_pic_dir = File.join(Dir.pwd,"public","images","users","#{temp_user.id}")
+        Dir.mkdir(profile_pic_dir) unless Dir.exist?(profile_pic_dir)
+        if params[:profile_img]
+          file_ext = File.extname(params[:profile_img][:filename])
+          File.open("public/images/users/#{temp_user.id}/profile_pic#{file_ext}", mode: "w", binmode: true){|file| file.write(File.read(params[:profile_img][:tempfile], binmode: true))}
+          redirect "/users/#{temp_user.slug}"
+        else
+          File.open("public/images/users/#{temp_user.id}/profile_pic.png", mode: "w", binmode: true){|file| file.write(File.read("public/images/users/generic/profile_pic.png", binmode: true))}
+        end
+        redirect "/login"
       else
-        File.open("public/images/users/#{temp_user.id}/profile_pic.png", mode: "w", binmode: true){|file| file.write(File.read("public/images/users/generic/profile_pic.png", binmode: true))}
+        flash[:invalid_error] = "* Please fill out all fields."
+        redirect '/signup'
       end
-      session[:id] = temp_user.id if !logged_in?
-      redirect "/recent-activity"
     end
   end
 
@@ -63,13 +72,18 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/login" do
-    user = User.find_by(username: params[:username])
-    if !!user && !!user.authenticate(params[:password])
-      session[:id] = user.id
-      redirect "/users/#{current_user.slug}"
+    if !logged_in?
+      user = User.find_by(username: params[:username])
+      if user && user.authenticate(params[:password])
+        session[:id] = user.id
+        redirect "/users/#{current_user.slug}"
+      else
+        flash[:not_found_error] = "* Username or password incorrect"
+        redirect '/login'
+      end 
     else
-      flash[:error] = "* Username or password incorrect"
-      redirect '/login'
+      flash[:error] = "Hey, how'd you get here!?!?"
+      erb :error
     end
   end
 
