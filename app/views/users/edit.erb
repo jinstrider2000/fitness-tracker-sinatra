@@ -1,21 +1,33 @@
 <div class="container">
-	<h2>My Profile</h2>
-	<form enctype="multipart/form-data" action="/users/<%=@current_user.slug%>" method="POST">
+	<h2>Edit Profile</h2>
+	<form enctype="multipart/form-data" action="/users/<%=@user.slug%>" method="POST">
     <input type="hidden" name="_method" value="PATCH">
 		<div class="row">
-			<div class="col-sm-5">
-				<img class="profile-pic-select img-thumbnail" src="images/users/<%=current_user.id%>/profile_pic" alt="Generic Profile Pic">
-				<input class="img-upload-btn" type="file" name="profile-img" accept="images/*">
+			<div class="col-sm-12">
+				<img class="profile-pic-select" src="<%=profile_pic_path(@user)%>" alt="Profile Pic">
+				<input class="img-upload-btn" type="file" name="profile_img" accept="image/*">
 			</div>
 		</div>
 		<div class="row">
-			<input class="col-sm-5" type="text" name="user[name]" value="<%=current_user.name%>">
-			<input class="col-sm-5 col-sm-offset-2" type="email" name="user[email]" value="<%=current_user.email%>">
+			<div class="col-sm-6">
+				<label for="name-input">Name:</label>
+				<input id="name-input" class="form-control" type="text" name="user[name]" value="<%=@user.name%>">
+			</div>
+			<div class="col-sm-6">
+				<label for="calorie-input">Calorie Goal:</label>
+				<input id="calorie-input" class="form-control" type="text" name="user[daily_calorie_goal]" title="Please enter a number (e.g. 1000)" value="<%=@user.daily_calorie_goal%>">
+			</div>
 		</div>
 		<div class="row">
-			<input class="col-sm-5" type="text" name="user[username]" value="<%=current_user.username%>">
-			<input class="col-sm-5 col-sm-offset-2" type="password" name="user[password]" value="<%=current_user.password%>">
+			<div class="col-sm-6">
+				<label for="usrnme-input">Username:</label>
+				<input id="usrnme-input" class="form-control" type="text" name="user[username]" value="<%=@user.username%>">
+			</div>
+			<div class="col-sm-6">
+				<label for="pswrd-input">Password:</label>
+				<input id="pswrd-input" class="form-control" type="password" name="user[password]" placeholder="Optional: Leave Blank To Keep Password">
+			</div>
 		</div>
-    <input type="submit" value="Save Changes">
+    <input type="submit" class="btn btn-default" value="Save Changes">
 	</form>
 </div>
