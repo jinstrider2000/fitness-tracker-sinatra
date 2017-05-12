@@ -14,21 +14,21 @@
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="main_nav">
 			<ul class="nav navbar-nav navbar-left">
-				<% if logged_in? %>
-					<li class="<%=@nav[:exercise][:status]%>"><a href="<%="/users/#{current_user.slug}/exercises"%>">Exercise<%="<span class=\"sr-only\"> (current)</span>" if @nav[:exercise][:status] == "active"%></a></li>
-					<li class="<%=@nav[:nutrition][:status]%>"><a href="<%="/users/#{current_user.slug}/foods"%>">Nutrition<%="<span class=\"sr-only\"> (current)</span>" if @nav[:nutrition][:status] == "active"%></a></li>
+				<% if @logged_in %>
+					<li class="<%=@nav[:exercise][:status]%>"><a href="<%="/users/#{@current_user.slug}/exercises"%>">Exercise<%="<span class=\"sr-only\"> (current)</span>" if @nav[:exercise][:status] == "active"%></a></li>
+					<li class="<%=@nav[:nutrition][:status]%>"><a href="<%="/users/#{@current_user.slug}/foods"%>">Nutrition<%="<span class=\"sr-only\"> (current)</span>" if @nav[:nutrition][:status] == "active"%></a></li>
 				<% else %>
 					<li class="<%=@nav[:exercise][:status]%>"><a href="/login">Exercise<%="<span class=\"sr-only\"> (current)</span>" if @nav[:exercise][:status] == "active"%></a></li>
 					<li class="<%=@nav[:nutrition][:status]%>"><a href="/login">Nutrition<%="<span class=\"sr-only\"> (current)</span>" if @nav[:nutrition][:status] == "active"%></a></li>
 				<% end %>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<% if logged_in? %>
-					<li><img class="img-circle mini-pic-display" src="<%=profile_pic_path(current_user)%>" alt="Profile Pic"></li>
+				<% if @logged_in? %>
+					<li><img class="img-circle mini-pic-display" src="<%=profile_pic_path(@current_user)%>" alt="Profile Pic"></li>
 					<li class="dropdown">
-						<a id="acct-dropdown" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%=first_name(current_user.name)%><span class="caret"></span></a>
+						<a id="acct-dropdown" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%=first_name(@current_user.name)%><span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a href="/users/<%=current_user.slug%>">My Profile</a></li>
+							<li><a href="/users/<%=@current_user.slug%>">My Profile</a></li>
 							<li role="separator" class="divider"></li>
 							<li><a href="/logout">Log Out</a></li>
 						</ul>

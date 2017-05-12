@@ -1,12 +1,14 @@
 <div class="container">
 	<div class="row text-center">
 		<img class="img-responsive index-icon" src="<%=url("images/exercise_icon.png")%>" alt="Exercise Icon">
-		<h2>Your Exercises</h2>
+		<h2>@main_heading</h2>
 	</div>
 	<div class="row text-center" style="margin-bottom:25px;">
+	<% if @viewing_own_profile_while_logged_in %>
 		<span>
 			<a class="btn btn-primary btn-lg" role="button" href="<%=url("/exercises/new")%>">Add New</a>
 		</span>
+	<% end %>
 	</div>
 	<%= erb display_all_obj_associations_by_date(@user,:exercises,"name","calories_burned") %>
 </div>

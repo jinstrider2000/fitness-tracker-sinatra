@@ -3,7 +3,7 @@ module FitnessTracker
   module Helpers
   
     def logged_in?
-      session[:id] && current_user
+      !!current_user
     end
 
     def current_user
@@ -52,12 +52,8 @@ module FitnessTracker
       end
     end
 
-    def viewing_own_profile_while_logged_in?(user)
-      if logged_in?
+    def viewing_own_profile_while_logged_in?(user, current_user)
        user.id == current_user.id
-      else
-        false
-      end
     end
 
     def display_all_obj_associations_by_date(user, obj_association, *attrs_to_display)

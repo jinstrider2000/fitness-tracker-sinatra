@@ -2,7 +2,7 @@
 	<div class="row" style="margin-bottom:20px;">
 		<div class="col-sm-12">
 			<img class="profile-pic-display img-circle" src="<%=profile_pic_path(@user)%>" alt="<%=first_name(@user.name)%>'s Profile Pic">
-			<% if viewing_own_profile_while_logged_in?(@user) %>
+			<% if @viewing_own_profile_while_logged_in %>
 				<h2>Welcome <%=first_name(@user.name)%>!</h2>
 				<a href="/users/<%=@user.slug%>/edit">Edit</a>
 			<% else %>

@@ -1,10 +1,10 @@
 <div class="container">
 	<h1 class="text-center">Register</h1>
-	<% if flash.has?(:calorie_error) || flash.has?(:username_error) || flash.has?(:image_error) %>
+	<% if flash.has?(:calorie_error) || flash.has?(:username_error) || flash.has?(:image_error) || flash.has?(:invalid_error) %>
 		<%="<p class=\"error-msg\">#{flash[:calorie_error]}</p>" if flash.has?(:calorie_error) %>
 		<%="<p class=\"error-msg\">#{flash[:username_error]}</p>" if flash.has?(:username_error) %>
 		<%="<p class=\"error-msg\">#{flash[:image_error]}</p>" if flash.has?(:image_error) %>
-		<%="<p class=\"error-msg\">#{flash[:invalid_error]}</p>" if flash.has?(:calorie_error) %>
+		<%="<p class=\"error-msg\">#{flash[:invalid_error]}</p>" if flash.has?(:invalid_error) %>
 	<% end %>
 	<form enctype="multipart/form-data" action="/signup" method="POST">
 		<div class="row">
