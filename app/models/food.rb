@@ -1,5 +1,5 @@
 class Food < ActiveRecord::Base
     belongs_to :user
-    has_many :achievements, as: :activity
+    has_one :achievement, as: :activity
     validates_presence_of :name, :calories
 end
