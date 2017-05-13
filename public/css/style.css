@@ -175,6 +175,16 @@ a.index-style:hover
 	color: grey;
 }
 
+.activity-block
+{
+	width: 600px;
+}
+
+.activity-row
+{
+	margin-bottom: 4px;
+}
+
 @media (max-width: 768px)
 {
 	footer
@@ -234,4 +244,15 @@ a.index-style:hover
 		font-size: 20px;
 	}
 
+	.activity-block
+	{
+		width: 100%;
+	}
+
+@media (max-width: 600px)
+{
+	.display-block
+	{
+		width: 100%;
+	}
 }

@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170421163537) do
+ActiveRecord::Schema.define(version: 20170513011748) do
+
+  create_table "achievements", force: :cascade do |t|
+    t.string   "activity_type"
+    t.integer  "activity_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["activity_type", "activity_id"], name: "index_achievements_on_activity_type_and_activity_id"
+  end
 
   create_table "exercises", force: :cascade do |t|
     t.string   "name"

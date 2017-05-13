@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="row text-center">
+    <img class="img-responsive index-icon" src="<%=url("images/exercise_icon.png")%>" alt="Exercise Icon">
+    <h2><%=@main_heading%></h2>
+  </div>
+  <div class="row text-center">
+    <h3><%=print_time(@exercise.created_at)%></h3>
+    <div class="col-sm-6">
+      <h4><%=@exercise.name%></h4>
+    </div>
+    <div class="col-sm-6">
+      <h4><%=@exercise.calories%></h4>
+    </div>
+  </div>
+</div>

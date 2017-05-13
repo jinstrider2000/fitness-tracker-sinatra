@@ -1,10 +1,11 @@
 <div class="container">
 	<h2>Edit Profile</h2>
+	<%="<span class=\"error-msg\">#{flash[:user_edit_error]}</span>" if flash.has?(:user_edit_error) %>
 	<form enctype="multipart/form-data" action="/users/<%=@user.slug%>" method="POST">
     <input type="hidden" name="_method" value="PATCH">
 		<div class="row">
 			<div class="col-sm-12">
-				<img class="profile-pic-select" src="<%=profile_pic_path(@user)%>" alt="Profile Pic">
+				<img class="profile-pic-select img-circle" src="<%=profile_pic_path(@user)%>" alt="Profile Pic">
 				<input class="img-upload-btn" type="file" name="profile_img" accept="image/*">
 			</div>
 		</div>

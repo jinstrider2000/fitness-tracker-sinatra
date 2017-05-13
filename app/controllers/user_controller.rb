@@ -97,13 +97,17 @@ class UserController < Sinatra::Base
     if viewing_own_profile_while_logged_in?(user,current_user)
       params.delete(:password) if params[:user][:password] == ""
       user.update(params[:user])
-      user.create_slug
-      if params[:profile_img]
-        File.delete(profile_pic_dir(user))
-        file_ext = File.extname(params[:profile_img][:filename])
-        File.open("public/images/users/#{user.id}/profile_pic#{file_ext}", mode: "w", binmode: true){|file| file.write(File.read(params[:profile_img][:tempfile], binmode: true))}
+      if user.valid?
+        user.create_slug
+        if params[:profile_img]
+          File.delete(profile_pic_dir(user))
+          file_ext = File.extname(params[:profile_img][:filename])
+          File.open("public/images/users/#{user.id}/profile_pic#{file_ext}", mode: "w", binmode: true){|file| file.write(File.read(params[:profile_img][:tempfile], binmode: true))}
+        end
+        redirect "/users/#{user.slug}"
+      else
+        flash[:user_edit_error] = "* Please fill out all required fields"
       end
-      redirect "/users/#{user.slug}"
     else
       flash[:error] = "Sorry, your request cannot be completed."
       erb :error

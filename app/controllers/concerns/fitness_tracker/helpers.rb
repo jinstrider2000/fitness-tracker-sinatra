@@ -116,6 +116,10 @@ module FitnessTracker
       profile_pic_file = Dir.glob(File.join("public","images","users","#{user.id}","profile_pic.*")).first.match(/(?<=\/)profile_pic.+/)[0]
       File.join("public","images","users","#{user.id}",profile_pic_file)
     end
+
+    def method_name
+      
+    end
     
   end
 
