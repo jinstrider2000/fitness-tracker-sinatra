@@ -117,8 +117,20 @@ module FitnessTracker
       File.join("public","images","users","#{user.id}",profile_pic_file)
     end
 
-    def method_name
-      
+    def display_recent_achievements
+      # <div class="container">
+      #   <h1>Recent Achievements</h1>
+      #   <div class="row activity-row">
+      #     <div class="center-block activity-block">
+      #       <img src="user profile pic" alt="">
+      #       <img src="exercise/food icon" alt="">
+      #       <h4>date</h4>
+      #       <p class="index-style">print attrs</p>
+      #       <p>for exercise: I did it!/for meals: Delicious!</p>
+      #     </div>
+      #   </div>
+      # </div>
+      Achievements.
     end
     
   end
