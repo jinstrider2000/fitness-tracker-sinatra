@@ -12,7 +12,7 @@ class UserController < Sinatra::Base
     @user = User.find_by(slug: params[:slug])
     @logged_in = logged_in?
     @current_user = current_user
-    @nav = {:exercise => {:status => ""}, :nutrition => {:status => ""}}
+    @nav = {:activity => {:status => ""}, :exercise => {:status => ""}, :nutrition => {:status => ""}}
 
     if @user
       @viewing_own_profile_while_logged_in = viewing_own_profile_while_logged_in?(@user,@current_user)
@@ -31,26 +31,11 @@ class UserController < Sinatra::Base
     
   end
 
-  get "/users/:slug/edit" do
-    @user = User.find_by(slug: params[:slug])
-    @logged_in = logged_in?
-    @current_user = current_user
-    @viewing_own_profile_while_logged_in = viewing_own_profile_while_logged_in?(@user,@current_user)
-    @nav = {:exercise => {:status => ""}, :nutrition => {:status => ""}}
-
-    if @logged_in && @viewing_own_profile_while_logged_in
-      erb :'users/edit'
-    else
-      flash[:error] = "Your request cannot be completed."
-      erb :error
-    end
-  end
-
   get "/users/:slug/exercises" do
     @user = User.find_by(slug: params[:slug])
     @logged_in = logged_in?
     @current_user = current_user
-    @nav = {:exercise => {:status => ""}, :nutrition => {:status => ""}}
+    @nav = {:activity => {:status => ""}, :exercise => {:status => ""}, :nutrition => {:status => ""}}
 
     if @user
       @viewing_own_profile_while_logged_in = viewing_own_profile_while_logged_in?(@user,@current_user)
@@ -64,6 +49,7 @@ class UserController < Sinatra::Base
       end
       erb :'exercises/index'
     else
+      @title = "Fitness Tracker - Error"
       flash[:error] = "The user you are looking for doesn't exist."
       erb :error
     end
@@ -73,7 +59,7 @@ class UserController < Sinatra::Base
     @user = User.find_by(slug: params[:slug])
     @logged_in = logged_in?
     @current_user = current_user
-    @nav = {:exercise => {:status => ""}, :nutrition => {:status => ""}}
+    @nav = {:activity => {:status => ""}, :exercise => {:status => ""}, :nutrition => {:status => ""}}
 
     if @user
       @viewing_own_profile_while_logged_in = viewing_own_profile_while_logged_in?(@user,@current_user)
@@ -87,15 +73,35 @@ class UserController < Sinatra::Base
       end
       erb :'foods/index'
     else
+      @title = "Fitness Tracker - Error"
       flash[:error] = "The user you are looking for doesn't exist."
+      erb :error
+    end
+  end
+
+  get "/users/:slug/edit" do
+    @user = User.find_by(slug: params[:slug])
+    @logged_in = logged_in?
+    @current_user = current_user
+    @viewing_own_profile_while_logged_in = viewing_own_profile_while_logged_in?(@user,@current_user)
+    @nav = {:activity => {:status => ""}, :exercise => {:status => ""}, :nutrition => {:status => ""}}
+
+    if @logged_in && @viewing_own_profile_while_logged_in
+      @title = "Fitness Tracker - Edit Profile"
+      erb :'users/edit'
+    else
+      @title = "Fitness Tracker - Error"
+      flash[:error] = "Your request cannot be completed."
       erb :error
     end
   end
 
   patch "/users/:slug" do
     user = User.find_by(slug: params[:slug])
-    if viewing_own_profile_while_logged_in?(user,current_user)
-      params.delete(:password) if params[:user][:password] == ""
+    @logged_in = logged_in?
+    @current_user = current_user
+    if viewing_own_profile_while_logged_in?(user,@current_user)
+      params[:user].delete(:password) if params[:user][:password] == ""
       user.update(params[:user])
       if user.valid?
         user.create_slug
@@ -107,9 +113,11 @@ class UserController < Sinatra::Base
         redirect "/users/#{user.slug}"
       else
         flash[:user_edit_error] = "* Please fill out all required fields"
+        redirect "/users/#{params[:slug]}/edit"
       end
     else
-      flash[:error] = "Sorry, your request cannot be completed."
+      @title = "Fitness Tracker - Error"
+      flash[:error] = "Your request cannot be completed."
       erb :error
     end
   end

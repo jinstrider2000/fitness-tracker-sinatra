@@ -4,22 +4,29 @@ class ApplicationController < Sinatra::Base
   self.apply_global_settings
 
   get "/" do
-    if logged_in?
+    @logged_in = logged_in
+    if @logged_in
       redirect "/recent-activity"
     else
       @title = "Fitness Tracker"
-      @nav = {:exercise => {:status => ""}, :nutrition => {:status => ""}}
+      @nav = {:activity => {:status => ""}, :exercise => {:status => ""}, :nutrition => {:status => ""}}
       erb :landing
     end
   end
 
   get "/recent-activity" do
-
+    @nav = {:activity => {:status => "active"}, :exercise => {:status => ""}, :nutrition => {:status => ""}}
+    @logged_in = logged_in?
+    @current_user = current_user if @logged_in
+    @title = "Fitness Tracker - Recent Achievements"
+    erb :recent_activity
   end
 
   get "/signup" do
-    if !logged_in?
-      @nav = {:exercise => {:status => ""}, :nutrition => {:status => ""}}
+    @logged_in = logged_in?
+    if !@logged_in
+      @title = "Fitness Tracker - Sign Up"
+      @nav = {:activity => {:status => ""}, :exercise => {:status => ""}, :nutrition => {:status => ""}}
       erb :'users/new'
     else
       redirect "/users/#{current_user.slug}"
@@ -62,16 +69,19 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/login" do
-    if logged_in?
+    @logged_in = logged_in?
+    if @logged_in
       redirect "/users/#{current_user.slug}"
     else
-      @nav = {:exercise => {:status => ""}, :nutrition => {:status => ""}}
+      @nav = {:activity => {:status => ""}, :exercise => {:status => ""}, :nutrition => {:status => ""}}
+      @title = "Fitness Tracker - Sign In"
       erb :login
     end
   end
 
   post "/login" do
-    if !logged_in?
+    @logged_in = logged_in?
+    if !@logged_in
       user = User.find_by(username: params[:username])
       if user && user.authenticate(params[:password])
         session[:id] = user.id
@@ -81,7 +91,9 @@ class ApplicationController < Sinatra::Base
         redirect '/login'
       end 
     else
-      flash[:error] = "Hey, how'd you get here!?!?"
+      @title = "Fitness Tracker - Error"
+      @nav = {:activity => {:status => ""}, :exercise => {:status => ""}, :nutrition => {:status => ""}}
+      flash[:error] = "Your request cannot be completed."
       erb :error
     end
   end

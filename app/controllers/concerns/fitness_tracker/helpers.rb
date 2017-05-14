@@ -56,6 +56,15 @@ module FitnessTracker
        user.id == current_user.id
     end
 
+    def editing_own_activity?(activity)
+      user = current_user
+      if user && activity
+        user.id == activity.user.id
+      else
+        false
+      end
+    end
+
     def display_all_obj_associations_by_date(user, obj_association, *attrs_to_display)
       output_buffer = ""
       first_two = user.send(obj_association).first(2)
@@ -118,21 +127,21 @@ module FitnessTracker
     end
 
     def display_recent_achievements
-      # <div class="container">
-      #   <h1>Recent Achievements</h1>
-      #   <div class="row activity-row">
-      #     <div class="center-block activity-block">
-      #       <img src="user profile pic" alt="">
-      #       <img src="exercise/food icon" alt="">
-      #       <h4>date</h4>
-      #       <p class="index-style">print attrs</p>
-      #       <p>for exercise: I did it!/for meals: Delicious!</p>
-      #     </div>
-      #   </div>
-      # </div>
-      Achievements.
-    end
-    
-  end
 
+    # <div class="container">
+    #   <h1>Recent Achievements</h1>
+    #   <div class="row activity-row">
+    #     <div class="center-block activity-block">
+    #       <img src="user profile pic" alt="">
+    #       <img src="exercise/food icon" alt="">
+    #       <h4>date</h4>
+    #       <p class="index-style">print attrs</p>
+    #       <p>for exercise: I did it!/for meals: Delicious!</p>
+    #     </div>
+    #   </div>
+    # </div>
+
+    end
+
+  end
 end
