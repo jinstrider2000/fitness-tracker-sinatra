@@ -4,7 +4,7 @@ class ApplicationController < Sinatra::Base
   self.apply_global_settings
 
   get "/" do
-    @logged_in = logged_in
+    @logged_in = logged_in?
     if @logged_in
       redirect "/recent-activity"
     else
@@ -94,7 +94,8 @@ class ApplicationController < Sinatra::Base
       @title = "Fitness Tracker - Error"
       @nav = {:activity => {:status => ""}, :exercise => {:status => ""}, :nutrition => {:status => ""}}
       flash[:error] = "Your request cannot be completed."
-      erb :error
+      status 403
+      body(erb :error)
     end
   end
 

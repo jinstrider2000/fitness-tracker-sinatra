@@ -8,6 +8,31 @@ class ExerciseController < Sinatra::Base
     use Rack::Flash, :sweep => true
 	end
 
+  get "/exercises/users/:slug" do
+    @user = User.find_by(slug: params[:slug])
+    @logged_in = logged_in?
+    @current_user = current_user
+    @nav = {:activity => {:status => ""}, :exercise => {:status => ""}, :nutrition => {:status => ""}}
+
+    if @user
+      @viewing_own_profile_while_logged_in = viewing_own_profile_while_logged_in?(@user,@current_user)
+      if @viewing_own_profile_while_logged_in
+        @nav[:exercise][:status] = "active"
+        @main_heading = "My Exercise"
+        @title = "Fitness Tracker - My Exercise"
+      else
+        @main_heading = "#{first_name(@user.name)}'s Exercise"
+        @title = "Fitness Tracker - #{first_name(@user.name)}'s Exercise"
+      end
+      erb :'exercises/index'
+    else
+      @title = "Fitness Tracker - Error"
+      flash[:error] = "The user you are looking for doesn't exist."
+      status 404
+      body(erb :error)
+    end
+  end
+
   get "/exercises/new" do
     @logged_in = logged_in?
     if @logged_in
@@ -17,21 +42,6 @@ class ExerciseController < Sinatra::Base
       erb :'exercises/new'
     else
       redirect '/'
-    end
-  end
-
-  get "/exercises/:id" do
-    @logged_in = logged_in?
-    @current_user = current_user
-    @nav = {:activity => {:status => ""}, :exercise => {:status => "active"}, :nutrition => {:status => ""}}
-    @title = "Fitness Tracker - Exercise"
-    @exercise = Exercise.find_by(id: params[:id])
-    if @exercise
-      erb :'exercises/show'
-    else
-      @title = "Fitness Tracker - Error"
-      flash[:error] = "The exercise stat you are looking for doesn't exist."
-      erb :error
     end
   end
 
@@ -46,7 +56,7 @@ class ExerciseController < Sinatra::Base
       end
       new_achievement = Achievement.create(activity: @current_user.exercises.create(params[:exercise]))
       if new_achievement.valid?
-        redirect "/users/#{@current_user.slug}/exercises"
+        redirect "/exercises/users/#{@current_user.slug}"
       else
         flash[:exercise_create_error] = "* Please fill out all fields."
         redirect '/exercises/new'
@@ -54,21 +64,43 @@ class ExerciseController < Sinatra::Base
     else
       @title = "Fitness Tracker - Error"
       flash[:error] = "Your request cannot be completed."
-      erb :error
+      status 403
+      body(erb :error)
+    end
+  end
+
+  get "/exercises/:id" do
+    @logged_in = logged_in?
+    @current_user = current_user
+    @nav = {:activity => {:status => ""}, :exercise => {:status => "active"}, :nutrition => {:status => ""}}
+    @title = "Fitness Tracker - Exercise"
+    @exercise = Exercise.find_by(id: params[:id])
+    @viewing_own_activity = viewing_own_activity?(@exercise)
+    if @exercise
+      erb :'exercises/show'
+    else
+      @title = "Fitness Tracker - Error"
+      flash[:error] = "The exercise stat you are looking for doesn't exist."
+      status 404
+      body(erb :error)
     end
   end
 
   get "/exercises/:id/edit" do
     @exercise = Exercise.find_by(id: params[:id])
     @logged_in = logged_in?
+    @current_user = current_user
     @nav = {:activity => {:status => ""}, :exercise => {:status => "active"}, :nutrition => {:status => ""}}
+    @viewing_own_activity = viewing_own_activity?(@exercise)
 
-    if @logged_in && editing_own_activity(@exercise)
-      @current_user = current_user
+    if @logged_in && @viewing_own_activity
       @title = "Fitness Tracker - Edit Exercise"
       erb :'exercises/edit'
     else
-      redirect "/exercises/#{params[:id]}"
+      @title = "Fitness Tracker - Error"
+      flash[:error] = "Your request cannot be completed."
+      status 403
+      body(erb :error)
     end
   end
 
@@ -81,17 +113,20 @@ class ExerciseController < Sinatra::Base
       redirect "/exercises/#{params[:id]}/edit"
     end
     exercise = Exercise.find_by(id: params[:id])
-    if @logged_in && editing_own_activity(exercise)
+    if @logged_in && viewing_own_activity?(exercise)
       exercise.update(params[:exercise])
       if exercise.valid?
-        redirect "/exercises/#{params[:id]}"
+        redirect_dir = referred_by_recent_activity? ? "/recent-activity" : "/exercises/users/#{current_user.slug}" 
+        redirect redirect_dir
       else
         flash[:exercise_edit_error] = "* Please fill out all fields."
+        redirect "/exercises/#{params[:id]}/edit"
       end
     else
       @title = "Fitness Tracker - Error"
       flash[:error] = "Your request cannot be completed."
-      erb :error
+      status 403
+      body(erb :error)
     end
   end
 
@@ -100,13 +135,15 @@ class ExerciseController < Sinatra::Base
     @current_user = current_user
     @nav = {:activity => {:status => ""}, :exercise => {:status => "active"}, :nutrition => {:status => ""}}
     exercise = Exercise.find_by(id: params[:id])
-    if @logged_in && editing_own_activity(exercise)
+    if @logged_in && viewing_own_activity?(exercise)
       exercise.destroy
-      redirect "/users/#{@current_user.slug}/exercises"
+      redirect_dir = referred_by_recent_activity? ? "/recent-activity" : "/exercises/users/#{current_user.slug}" 
+      redirect redirect_dir
     else
       @title = "Fitness Tracker - Error"
       flash[:error] = "Your request cannot be completed."
-      erb :error
+      status 403
+      body(erb :error)
     end
   end
 

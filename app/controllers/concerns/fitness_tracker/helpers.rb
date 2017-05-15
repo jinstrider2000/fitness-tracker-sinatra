@@ -53,10 +53,12 @@ module FitnessTracker
     end
 
     def viewing_own_profile_while_logged_in?(user, current_user)
-       user.id == current_user.id
+      if user && current_user
+        user.id == current_user.id
+      end
     end
 
-    def editing_own_activity?(activity)
+    def viewing_own_activity?(activity)
       user = current_user
       if user && activity
         user.id == activity.user.id
@@ -116,6 +118,10 @@ module FitnessTracker
       output_buffer
     end
 
+    def on_recent_activity?
+      !!(request.path_info =~ /\/recent-activity/)
+    end
+
     def profile_pic_path(user)
       profile_pic_file = Dir.glob(File.join("public","images","users","#{user.id}","profile_pic.*")).first.match(/(?<=\/)profile_pic.+/)[0]
       url("images/users/#{user.id}/#{profile_pic_file}")
@@ -126,20 +132,11 @@ module FitnessTracker
       File.join("public","images","users","#{user.id}",profile_pic_file)
     end
 
-    def display_recent_achievements
+    def referred_by_recent_activity?
+      !!(/\/recent-activity\Z/.match(request.referrer))
+    end
 
-    # <div class="container">
-    #   <h1>Recent Achievements</h1>
-    #   <div class="row activity-row">
-    #     <div class="center-block activity-block">
-    #       <img src="user profile pic" alt="">
-    #       <img src="exercise/food icon" alt="">
-    #       <h4>date</h4>
-    #       <p class="index-style">print attrs</p>
-    #       <p>for exercise: I did it!/for meals: Delicious!</p>
-    #     </div>
-    #   </div>
-    # </div>
+    def display_recent_achievements
 
     end
 

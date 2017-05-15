@@ -4,15 +4,15 @@
     <h2>Edit Meal</h2>
     <%="<span class=\"error-msg\">#{flash[:food_edit_error]}</span>" if flash.has?(:food_edit_error) %>
   </div>
-  <form action="/login" method="POST">
+  <form action="/foods/<%=@food.id%>" method="POST">
     <input type="hidden" name="_method" value="PATCH">
     <div class="form-group">
       <label for="name-input">Name</label>
-      <input id="name-input" class="form-control" type="text" name="food[name]" placeholder="Name of Meal" value="@food.name">
+      <input id="name-input" class="form-control" type="text" name="food[name]" placeholder="Name of Meal" value="<%=@food.name%>">
     </div>
     <div class="form-group">
       <label for="calories-input">Calories</label>
-      <input id="calories-input" class="form-control" type="type" name="food[calories]" placeholder="Calories Consumed" value="@food.calories">
+      <input id="calories-input" class="form-control" type="type" name="food[calories]" placeholder="Calories Consumed" value="<%=@food.calories%>">
     </div>
     <input class="btn btn-default" type="submit" value="Edit Meal">
   </form>

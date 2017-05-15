@@ -1,15 +1,26 @@
 <div class="container">
-  <div class="row text-center">
-    <img class="img-responsive index-icon" src="<%=url("images/exercise_icon.png")%>" alt="Exercise Icon">
-    <h2><%=@main_heading%></h2>
-  </div>
-  <div class="row text-center">
-    <h3><%=print_time(@exercise.created_at)%></h3>
-    <div class="col-sm-6">
-      <h4><%=@exercise.name%></h4>
-    </div>
-    <div class="col-sm-6">
-      <h4><%=@exercise.calories%></h4>
+  <div class="row">
+    <div class="activity-block center-block text-center card-style">
+      <div>
+        <img class="index-icon img-circle" src="<%=profile_pic_path(@exercise.user)%>" alt="">
+        <img class="index-icon" src="<%=url("images/exercise_icon.png")%>" alt="Exercise Icon">
+      </div>
+      <h3><%=print_time(@exercise.created_at)%></h3>
+      <% if on_recent_activity? %>
+        <p><em>I did it!</em></p>
+      <% end %>
+      <div>
+        <h4><%=@exercise.name%>: -<%=@exercise.calories_burned%> calories</h4>
+      </div>
+      <% if @viewing_own_activity %>
+        <div>
+          <a href="/exercises/<%=@exercise.id%>/edit" class="btn btn-default btn-xs" role="button">  Edit  </a>
+          <form action="/exercises/<%=@exercise.id%>" method="POST">
+            <input type="hidden" name="_method" value="DELETE">
+            <input class="btn btn-danger btn-xs" type="submit" value="Delete">
+          </form>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

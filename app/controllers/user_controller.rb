@@ -26,57 +26,10 @@ class UserController < Sinatra::Base
       erb :'users/show'
     else
       flash[:error] = "The user you are looking for doesn't exist."
-      erb :error
+      status 404
+      body(erb :error)
     end
     
-  end
-
-  get "/users/:slug/exercises" do
-    @user = User.find_by(slug: params[:slug])
-    @logged_in = logged_in?
-    @current_user = current_user
-    @nav = {:activity => {:status => ""}, :exercise => {:status => ""}, :nutrition => {:status => ""}}
-
-    if @user
-      @viewing_own_profile_while_logged_in = viewing_own_profile_while_logged_in?(@user,@current_user)
-      if @viewing_own_profile_while_logged_in
-        @nav[:exercise][:status] = "active"
-        @main_heading = "My Exercise"
-        @title = "Fitness Tracker - My Exercise"
-      else
-        @main_heading = "#{first_name(@user.name)}'s Exercise"
-        @title = "Fitness Tracker - #{first_name(@user.name)}'s Exercise"
-      end
-      erb :'exercises/index'
-    else
-      @title = "Fitness Tracker - Error"
-      flash[:error] = "The user you are looking for doesn't exist."
-      erb :error
-    end
-  end
-  
-  get "/users/:slug/foods" do
-    @user = User.find_by(slug: params[:slug])
-    @logged_in = logged_in?
-    @current_user = current_user
-    @nav = {:activity => {:status => ""}, :exercise => {:status => ""}, :nutrition => {:status => ""}}
-
-    if @user
-      @viewing_own_profile_while_logged_in = viewing_own_profile_while_logged_in?(@user,@current_user)
-      if @viewing_own_profile_while_logged_in
-        @nav[:nutrition][:status] = "active"
-        @main_heading = "My Meals"
-        @title = "Fitness Tracker - My Meals"
-      else
-        @main_heading = "#{first_name(@user.name)}'s Meals"
-        @title = "Fitness Tracker - #{first_name(@user.name)}'s Meals"
-      end
-      erb :'foods/index'
-    else
-      @title = "Fitness Tracker - Error"
-      flash[:error] = "The user you are looking for doesn't exist."
-      erb :error
-    end
   end
 
   get "/users/:slug/edit" do
@@ -92,7 +45,8 @@ class UserController < Sinatra::Base
     else
       @title = "Fitness Tracker - Error"
       flash[:error] = "Your request cannot be completed."
-      erb :error
+      status 403
+      body(erb :error)
     end
   end
 
@@ -118,7 +72,8 @@ class UserController < Sinatra::Base
     else
       @title = "Fitness Tracker - Error"
       flash[:error] = "Your request cannot be completed."
-      erb :error
+      status 403
+      body(erb :error)
     end
   end
 

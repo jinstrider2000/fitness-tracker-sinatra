@@ -132,8 +132,8 @@ main
 .index-icon
 {
 	display: inline-block;
-	min-width: 100px;
-	max-width: 150px;
+	width: 75px;
+	height: 75px;
 }
 
 .mini-index-icon
@@ -151,6 +151,7 @@ main
 {
 	border: 1px solid rgb(207,220,232);
 	box-shadow: 2px 1px 3px 1px rgb(180,180,180);
+	border-radius: 6px;
 }
 
 .error-msg
@@ -177,7 +178,13 @@ a.index-style:hover
 
 .activity-block
 {
-	width: 600px;
+	width: 500px;
+	padding: 5px 0;
+}
+
+.activity-block > div > form
+{
+	display: inline-block;
 }
 
 .activity-row
@@ -243,15 +250,11 @@ a.index-style:hover
 	{
 		font-size: 20px;
 	}
+}
 
-	.activity-block
-	{
-		width: 100%;
-	}
-
-@media (max-width: 600px)
+@media (max-width: 500px)
 {
-	.display-block
+	.activity-block
 	{
 		width: 100%;
 	}

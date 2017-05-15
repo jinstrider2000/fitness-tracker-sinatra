@@ -15,8 +15,8 @@
 			<ul class="nav navbar-nav navbar-left">
 				<% if @logged_in %>
 					<li class="<%=@nav[:activity][:status]%>"><a href="<%="/recent-activity"%>">Recent Activity<%="<span class=\"sr-only\"> (current)</span>" if @nav[:activity][:status] == "active"%></a></li>
-					<li class="<%=@nav[:exercise][:status]%>"><a href="<%="/users/#{@current_user.slug}/exercises"%>">Exercise<%="<span class=\"sr-only\"> (current)</span>" if @nav[:exercise][:status] == "active"%></a></li>
-					<li class="<%=@nav[:nutrition][:status]%>"><a href="<%="/users/#{@current_user.slug}/foods"%>">Nutrition<%="<span class=\"sr-only\"> (current)</span>" if @nav[:nutrition][:status] == "active"%></a></li>
+					<li class="<%=@nav[:exercise][:status]%>"><a href="<%="/exercises/users/#{@current_user.slug}"%>">Exercise<%="<span class=\"sr-only\"> (current)</span>" if @nav[:exercise][:status] == "active"%></a></li>
+					<li class="<%=@nav[:nutrition][:status]%>"><a href="<%="/foods/users/#{@current_user.slug}"%>">Nutrition<%="<span class=\"sr-only\"> (current)</span>" if @nav[:nutrition][:status] == "active"%></a></li>
 				<% else %>
 					<li class="<%=@nav[:activity][:status]%>"><a href="<%="/recent-activity"%>">Recent Activity<%="<span class=\"sr-only\"> (current)</span>" if @nav[:activity][:status] == "active"%></a></li>
 				<% end %>

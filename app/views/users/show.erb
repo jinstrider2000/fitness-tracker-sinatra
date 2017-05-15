@@ -22,7 +22,7 @@
 					<li class="index-style"><%=print_time(exercise.created_at)%> - <%=attr_display_str(exercise,["name","calories_burned"])%></li>
 				<% end %>
 				</ul>
-				<a class="more-link" href="/users/<%=@user.slug%>/exercises">more</a>
+				<a class="more-link" href="/exercises/users/<%=@user.slug%>">more</a>
 			<% end %>
 		</div>
 		<div class="col-sm-5 col-sm-offset-2 card-style clearfix">
@@ -35,7 +35,7 @@
 					<li class="index-style"><%=print_time(food.created_at)%> - <%=attr_display_str(food,["name","calories"])%></li>
 				<% end %>
 				</ul>
-				<a class="more-link" href="/users/<%=@user.slug%>/foods">more</a>
+				<a class="more-link" href="/foods/users/<%=@user.slug%>">more</a>
 			<% end %>
 		</div>
 	</div>
