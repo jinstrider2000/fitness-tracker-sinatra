@@ -74,10 +74,10 @@ class FoodController < Sinatra::Base
     @current_user = current_user
     @nav = {:activity => {:status => ""}, :exercise => {:status => ""}, :nutrition => {:status => "active"}}
     @title = "Fitness Tracker - Meal"
-    @food = Food.find_by(id: params[:id])
-    @viewing_own_activity = viewing_own_activity?(@food)
-    if @food
-      erb :'foods/show'
+    food = Food.find_by(id: params[:id])
+    viewing_own_activity = viewing_own_activity?(food)
+    if food
+      erb(:'foods/show', :locals => {:food => food, :viewing_own_activity => viewing_own_activity})
     else
       @title = "Fitness Tracker - Error"
       flash[:error] = "The food stat you are looking for doesn't exist."
@@ -87,15 +87,15 @@ class FoodController < Sinatra::Base
   end
 
   get "/foods/:id/edit" do
-    @food = Food.find_by(id: params[:id])
+    food = Food.find_by(id: params[:id])
     @logged_in = logged_in?
     @current_user = current_user
     @nav = {:activity => {:status => ""}, :exercise => {:status => ""}, :nutrition => {:status => "active"}}
-    @viewing_own_activity = viewing_own_activity?(@food)
+    viewing_own_activity = viewing_own_activity?(food)
 
-    if @logged_in && @viewing_own_activity
+    if @logged_in && viewing_own_activity
       @title = "Fitness Tracker - Edit Meal"
-      erb :'foods/edit'
+      erb(:'foods/edit', :locals => {:food => food, :viewing_own_activity => viewing_own_activity})
     else
       @title = "Fitness Tracker - Error"
       flash[:error] = "Your request cannot be completed."
@@ -116,8 +116,7 @@ class FoodController < Sinatra::Base
     if @logged_in && viewing_own_activity?(food)
       food.update(params[:food])
       if food.valid?
-        redirect_dir = referred_by_recent_activity? ? "/recent-activity" : "/foods/users/#{current_user.slug}"
-        redirect redirect_dir
+        redirect "/foods/users/#{current_user.slug}"
       else
         flash[:food_edit_error] = "* Please fill out all fields."
         redirect "/foods/#{params[:id]}/edit"
@@ -136,6 +135,7 @@ class FoodController < Sinatra::Base
     @nav = {:activity => {:status => ""}, :exercise => {:status => ""}, :nutrition => {:status => "active"}}
     food = Food.find_by(id: params[:id])
     if @logged_in && viewing_own_activity?(food)
+      Achievement.find_by(activity: food).destroy
       food.destroy
       redirect_dir = referred_by_recent_activity? ? "/recent-activity" : "/foods/users/#{current_user.slug}"
       redirect redirect_dir

@@ -56,9 +56,9 @@ class ApplicationController < Sinatra::Base
         Dir.mkdir(profile_pic_dir) unless Dir.exist?(profile_pic_dir)
         if params[:profile_img]
           file_ext = File.extname(params[:profile_img][:filename])
-          File.open("public/images/users/#{temp_user.id}/profile_pic#{file_ext}", mode: "w", binmode: true){|file| file.write(File.read(params[:profile_img][:tempfile], binmode: true))}
+          File.open("public/images/users/#{temp_user.id}/#{temp_user.id}_profilepic_1_#{file_ext}", mode: "w", binmode: true){|file| file.write(File.read(params[:profile_img][:tempfile], binmode: true))}
         else
-          File.open("public/images/users/#{temp_user.id}/profile_pic.png", mode: "w", binmode: true){|file| file.write(File.read("public/images/users/generic/profile_pic.png", binmode: true))}
+          File.open("public/images/users/#{temp_user.id}/#{temp_user.id}_profilepic_1_.png", mode: "w", binmode: true){|file| file.write(File.read("public/images/users/generic/profile_pic.png", binmode: true))}
         end
         redirect "/login"
       else

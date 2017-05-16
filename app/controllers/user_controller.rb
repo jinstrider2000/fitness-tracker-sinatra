@@ -60,9 +60,12 @@ class UserController < Sinatra::Base
       if user.valid?
         user.create_slug
         if params[:profile_img]
-          File.delete(profile_pic_dir(user))
+          profile_pic_array = profile_pic_dir(user)
+          profile_pic_dir_w_file = profile_pic_array[0]
+          new_pic_instance_num = profile_pic_array[1].split("_")[2].to_i + 1
+          File.delete(profile_pic_dir_w_file)
           file_ext = File.extname(params[:profile_img][:filename])
-          File.open("public/images/users/#{user.id}/profile_pic#{file_ext}", mode: "w", binmode: true){|file| file.write(File.read(params[:profile_img][:tempfile], binmode: true))}
+          File.open("public/images/users/#{user.id}/#{user.id}_profilepic_#{new_pic_instance_num}_#{file_ext}", mode: "w", binmode: true){|file| file.write(File.read(params[:profile_img][:tempfile], binmode: true))}
         end
         redirect "/users/#{user.slug}"
       else

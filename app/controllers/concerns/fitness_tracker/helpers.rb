@@ -15,11 +15,11 @@ module FitnessTracker
     end
 
     def recent_exercises(user)
-      user.exercises.limit(6).reverse
+      user.exercises.order(created_at: :desc).limit(6)
     end
 
     def recent_meals(user)
-      user.foods.limit(6).reverse
+      user.foods.order(created_at: :desc).limit(6)
     end
 
     def print_time(datetime)
@@ -74,7 +74,7 @@ module FitnessTracker
         iterator_start = first_two[1].id if first_two.size == 2
         current_date = print_time_index_style(first_two[0].created_at)
         output_buffer << <<-HTML
-        <div class="row">
+        <div class="row clearfix">
         <div class="col-sm-3 card-style" style="padding-bottom:5px;">
         <h3 class="text-center">#{current_date}</h3>
         <a class="center-block text-center index-style" href="/#{obj_association}/#{first_two[0].id}">#{attr_display_str(first_two[0],attrs_to_display)}</a>
@@ -84,16 +84,16 @@ module FitnessTracker
           user.send(obj_association).find_each(start: iterator_start) do |obj|
             if current_date != print_time_index_style(obj.created_at)
               current_date = print_time_index_style(obj.created_at)
+              column_inserted_count += 1
               if column_inserted_count % 4 == 0
                 output_buffer << <<-HTML
                 </div>
                 </div>
-                <div class="row">
+                <div class="row clearfix">
                 <div class="col-sm-3 card-style" style="padding-bottom:5px;">
                 <h3 class="text-center">#{current_date}</h3>
                 <a class="center-block text-center index-style" href="/#{obj_association}/#{obj.id}">#{attr_display_str(obj,attrs_to_display)}</a>
                 HTML
-                column_inserted_count += 1
               else
                 output_buffer << <<-HTML
                 </div>
@@ -101,7 +101,6 @@ module FitnessTracker
                 <h3 class="text-center">#{current_date}</h3>
                 <a class="center-block text-center index-style" href="/#{obj_association}/#{obj.id}">#{attr_display_str(obj,attrs_to_display)}</a>
                 HTML
-                column_inserted_count += 1
               end
             else
               output_buffer << <<-HTML
@@ -123,13 +122,13 @@ module FitnessTracker
     end
 
     def profile_pic_path(user)
-      profile_pic_file = Dir.glob(File.join("public","images","users","#{user.id}","profile_pic.*")).first.match(/(?<=\/)profile_pic.+/)[0]
+      profile_pic_file = Dir.glob(File.join("public","images","users","#{user.id}","*profilepic*")).first.match(/(?<=\/)\d+_profilepic.+/)[0]
       url("images/users/#{user.id}/#{profile_pic_file}")
     end
 
     def profile_pic_dir(user)
-      profile_pic_file = Dir.glob(File.join("public","images","users","#{user.id}","profile_pic.*")).first.match(/(?<=\/)profile_pic.+/)[0]
-      File.join("public","images","users","#{user.id}",profile_pic_file)
+      profile_pic_file = Dir.glob(File.join("public","images","users","#{user.id}","*profilepic*")).first.match(/(?<=\/)\d+_profilepic.+/)[0]
+      [File.join("public","images","users","#{user.id}",profile_pic_file), profile_pic_file]
     end
 
     def referred_by_recent_activity?
@@ -137,7 +136,22 @@ module FitnessTracker
     end
 
     def display_recent_achievements
-      
+      achievements = Achievement.where("created_at > ?", 5.days.ago).order(created_at: :desc)
+      output_buffer = ""
+      achievements.each do |achievement|
+        if achievement.activity_type == "Food"
+          food = achievement.activity
+          binding.pry if food == nil
+          viewing_own_activity = viewing_own_activity?(food)
+          output_buffer << erb(:'foods/show', :locals => {:food => food, :viewing_own_activity => viewing_own_activity})
+        else
+          exercise = achievement.activity
+          binding.pry if exercise == nil
+          viewing_own_activity = viewing_own_activity?(exercise)
+          output_buffer << erb(:'exercises/show', :locals => {:exercise => exercise, :viewing_own_activity => viewing_own_activity})
+        end
+      end
+      output_buffer
     end
 
   end
