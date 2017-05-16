@@ -1,42 +1,40 @@
-<div class="container">
-	<div class="row" style="margin-bottom:20px;">
-		<div class="col-sm-12">
-			<img class="profile-pic-display img-circle" src="<%=profile_pic_path(@user)%>" alt="<%=first_name(@user.name)%>'s Profile Pic">
-			<% if @viewing_own_profile_while_logged_in %>
-				<h2>Welcome <%=first_name(@user.name)%>!</h2>
-				<a href="/users/<%=@user.slug%>/edit">Edit</a>
-			<% else %>
-				<h2><%=@user.name%></h2>
-			<% end %>
-			<h4 id="calorie-goal-display">Daily Calorie Goal: <%=@user.daily_calorie_goal%></h4>
-		</div>
+<div class="row" style="margin-bottom:20px;">
+	<div class="col-sm-12">
+		<img class="profile-pic-display img-circle" src="<%=profile_pic_path(@user)%>" alt="<%=first_name(@user.name)%>'s Profile Pic">
+		<% if @viewing_own_profile_while_logged_in %>
+			<h2>Welcome <%=first_name(@user.name)%>!</h2>
+			<a href="/users/<%=@user.slug%>/edit">Edit</a>
+		<% else %>
+			<h2><%=@user.name%></h2>
+		<% end %>
+		<h4 id="calorie-goal-display">Daily Calorie Goal: <%=@user.daily_calorie_goal%></h4>
 	</div>
-	<div class="row">
-		<div class="col-sm-5 card-style clearfix">
-			<h3>Recent Exercises</h3>
-			<% if @user.exercises.count < 1 %>
-				<p>No Activity</p>
-			<% else %>
-				<ul>
-				<% recent_exercises(@user).each do |exercise| %>
-					<li class="index-style"><%=print_time(exercise.created_at)%> - <%=attr_display_str(exercise,["name","calories_burned"])%></li>
-				<% end %>
-				</ul>
-				<a class="more-link" href="/exercises/users/<%=@user.slug%>">more</a>
+</div>
+<div class="row">
+	<div class="col-sm-5 card-style clearfix">
+		<h3>Recent Exercises</h3>
+		<% if @user.exercises.count < 1 %>
+			<p>No Activity</p>
+		<% else %>
+			<ul>
+			<% recent_exercises(@user).each do |exercise| %>
+				<li class="index-style"><%=print_time(exercise.created_at)%> - <%=attr_display_str(exercise,["name","calories_burned"])%></li>
 			<% end %>
-		</div>
-		<div class="col-sm-5 col-sm-offset-2 card-style clearfix">
-			<h3>Recent Meals</h3>
-			<% if @user.foods.count < 1 %>
-				<p>No Activity</p>
-			<% else %>
-				<ul>
-				<% recent_meals(@user).each do |food| %>
-					<li class="index-style"><%=print_time(food.created_at)%> - <%=attr_display_str(food,["name","calories"])%></li>
-				<% end %>
-				</ul>
-				<a class="more-link" href="/foods/users/<%=@user.slug%>">more</a>
+			</ul>
+			<a class="more-link" href="/exercises/users/<%=@user.slug%>">more</a>
+		<% end %>
+	</div>
+	<div class="col-sm-5 col-sm-offset-2 card-style clearfix">
+		<h3>Recent Meals</h3>
+		<% if @user.foods.count < 1 %>
+			<p>No Activity</p>
+		<% else %>
+			<ul>
+			<% recent_meals(@user).each do |food| %>
+				<li class="index-style"><%=print_time(food.created_at)%> - <%=attr_display_str(food,["name","calories"])%></li>
 			<% end %>
-		</div>
+			</ul>
+			<a class="more-link" href="/foods/users/<%=@user.slug%>">more</a>
+		<% end %>
 	</div>
 </div>

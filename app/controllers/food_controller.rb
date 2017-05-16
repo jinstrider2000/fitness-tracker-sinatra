@@ -8,7 +8,7 @@ class FoodController < Sinatra::Base
     use Rack::Flash, :sweep => true
 	end
 
-  get "foods/users/:slug" do
+  get "/foods/users/:slug" do
     @user = User.find_by(slug: params[:slug])
     @logged_in = logged_in?
     @current_user = current_user

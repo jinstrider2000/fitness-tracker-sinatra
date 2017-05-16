@@ -1,19 +1,17 @@
-<div class="container">
-  <div class="row text-center">
-    <img class="img-responsive index-icon" src="<%=url("images/exercise_icon.png")%>" alt="Exercise Icon">
-    <h2>Edit Exercise</h2>
-    <%="<span class=\"error-msg\">#{flash[:exercise_edit_error]}</span>" if flash.has?(:exercise_edit_error) %>
-  </div>
-  <form action="/exercises/<%=@exercise.id%>" method="POST">
-    <input type="hidden" name="_method" value="PATCH">
-    <div class="form-group">
-      <label for="name-input">Name</label>
-      <input id="name-input" class="form-control" type="text" name="exercise[name]" placeholder="Type of Exercise" value="<%=@exercise.name%>">
-    </div>
-    <div class="form-group">
-      <label for="calories-burned-input">Calories Burned</label>
-      <input id="calories-burned-input" class="form-control" type="type" name="exercise[calories_burned]" placeholder="Amount of Calories" value="<%=@exercise.calories_burned%>">
-    </div>
-    <input class="btn btn-default" type="submit" value="Edit Exercise">
-  </form>
+<div class="row text-center">
+  <img class="img-responsive index-icon" src="<%=url("images/exercise_icon.png")%>" alt="Exercise Icon">
+  <h2>Edit Exercise</h2>
+  <%="<p class=\"error-msg\">#{flash[:exercise_edit_error]}</p>" if flash.has?(:exercise_edit_error) %>
 </div>
+<form action="/exercises/<%=@exercise.id%>" method="POST">
+  <input type="hidden" name="_method" value="PATCH">
+  <div class="form-group">
+    <label for="name-input">Name</label>
+    <input id="name-input" class="form-control" type="text" name="exercise[name]" placeholder="Type of Exercise" value="<%=@exercise.name%>">
+  </div>
+  <div class="form-group">
+    <label for="calories-burned-input">Calories Burned</label>
+    <input id="calories-burned-input" class="form-control" type="type" name="exercise[calories_burned]" placeholder="Amount of Calories" value="<%=@exercise.calories_burned%>">
+  </div>
+  <input class="btn btn-default" type="submit" value="Edit Exercise">
+</form>

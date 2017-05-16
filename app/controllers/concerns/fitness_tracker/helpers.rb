@@ -137,7 +137,7 @@ module FitnessTracker
     end
 
     def display_recent_achievements
-
+      
     end
 
   end

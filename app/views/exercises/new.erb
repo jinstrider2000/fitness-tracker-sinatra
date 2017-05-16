@@ -1,18 +1,16 @@
-<div class="container">
-  <div class="row text-center">
-    <img class="img-responsive index-icon" src="<%=url("images/exercise_icon.png")%>" alt="Exercise Icon">
-    <h2>New Exercise</h2>
-    <%="<span class=\"error-msg\">#{flash[:exercise_create_error]}</span>" if flash.has?(:exercise_create_error) %>
-  </div>
-  <form action="/login" method="POST">
-    <div class="form-group">
-      <label for="name-input">Name</label>
-      <input id="name-input" class="form-control" type="text" name="exercise[name]" placeholder="Type of Exercise">
-    </div>
-    <div class="form-group">
-      <label for="calories-burned-input">Calories Burned</label>
-      <input id="calories-burned-input" class="form-control" type="type" name="exercise[calories_burned]" placeholder="Calories Burned">
-    </div>
-    <input class="btn btn-default" type="submit" value="Add Exercise">
-  </form>
+<div class="row text-center">
+  <img class="index-icon" src="<%=url("images/exercise_icon.png")%>" alt="Exercise Icon">
+  <h2>New Exercise</h2>
+  <%="<p class=\"error-msg\">#{flash[:exercise_create_error]}</p>" if flash.has?(:exercise_create_error) %>
 </div>
+<form action="/exercises" method="POST">
+  <div class="form-group">
+    <label for="name-input">Name</label>
+    <input id="name-input" class="form-control" type="text" name="exercise[name]" placeholder="Type of Exercise">
+  </div>
+  <div class="form-group">
+    <label for="calories-burned-input">Calories Burned</label>
+    <input id="calories-burned-input" class="form-control" type="type" name="exercise[calories_burned]" placeholder="Calories Burned">
+  </div>
+  <input class="btn btn-default" type="submit" value="Add Exercise">
+</form>

@@ -91,6 +91,7 @@ class ApplicationController < Sinatra::Base
         redirect '/login'
       end 
     else
+      @current_user = current_user
       @title = "Fitness Tracker - Error"
       @nav = {:activity => {:status => ""}, :exercise => {:status => ""}, :nutrition => {:status => ""}}
       flash[:error] = "Your request cannot be completed."

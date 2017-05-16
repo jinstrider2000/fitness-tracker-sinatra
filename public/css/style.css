@@ -136,10 +136,12 @@ main
 	height: 75px;
 }
 
-.mini-index-icon
+.index-icon-mini
 {
+	display: inline-block;
 	height: 45px;
-	widows: 45px;
+	width: 45px;
+	margin-right: 10px;
 }
 
 .more-link

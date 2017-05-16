@@ -1,34 +1,32 @@
-<div class="container">
-	<h2>Edit Profile</h2>
-	<%="<span class=\"error-msg\">#{flash[:user_edit_error]}</span>" if flash.has?(:user_edit_error) %>
-	<form enctype="multipart/form-data" action="/users/<%=@user.slug%>" method="POST">
-    <input type="hidden" name="_method" value="PATCH">
-		<div class="row">
-			<div class="col-sm-12">
-				<img class="profile-pic-select img-circle" src="<%=profile_pic_path(@user)%>" alt="Profile Pic">
-				<input class="img-upload-btn" type="file" name="profile_img" accept="image/*">
-			</div>
+<h2>Edit Profile</h2>
+<%="<span class=\"error-msg\">#{flash[:user_edit_error]}</span>" if flash.has?(:user_edit_error) %>
+<form enctype="multipart/form-data" action="/users/<%=@user.slug%>" method="POST">
+	<input type="hidden" name="_method" value="PATCH">
+	<div class="row">
+		<div class="col-sm-12">
+			<img class="profile-pic-select img-circle" src="<%=profile_pic_path(@user)%>" alt="Profile Pic">
+			<input class="img-upload-btn" type="file" name="profile_img" accept="image/*">
 		</div>
-		<div class="row">
-			<div class="col-sm-6">
-				<label for="name-input">Name:</label>
-				<input id="name-input" class="form-control" type="text" name="user[name]" value="<%=@user.name%>">
-			</div>
-			<div class="col-sm-6">
-				<label for="calorie-input">Calorie Goal:</label>
-				<input id="calorie-input" class="form-control" type="text" name="user[daily_calorie_goal]" title="Please enter a number (e.g. 1000)" value="<%=@user.daily_calorie_goal%>">
-			</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6">
+			<label for="name-input">Name:</label>
+			<input id="name-input" class="form-control" type="text" name="user[name]" value="<%=@user.name%>">
 		</div>
-		<div class="row">
-			<div class="col-sm-6">
-				<label for="usrnme-input">Username:</label>
-				<input id="usrnme-input" class="form-control" type="text" name="user[username]" value="<%=@user.username%>">
-			</div>
-			<div class="col-sm-6">
-				<label for="pswrd-input">Password:</label>
-				<input id="pswrd-input" class="form-control" type="password" name="user[password]" placeholder="Optional: Leave Blank To Keep Password">
-			</div>
+		<div class="col-sm-6">
+			<label for="calorie-input">Calorie Goal:</label>
+			<input id="calorie-input" class="form-control" type="text" name="user[daily_calorie_goal]" title="Please enter a number (e.g. 1000)" value="<%=@user.daily_calorie_goal%>">
 		</div>
-    <input type="submit" class="btn btn-default" value="Save Changes">
-	</form>
-</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6">
+			<label for="usrnme-input">Username:</label>
+			<input id="usrnme-input" class="form-control" type="text" name="user[username]" value="<%=@user.username%>">
+		</div>
+		<div class="col-sm-6">
+			<label for="pswrd-input">Password:</label>
+			<input id="pswrd-input" class="form-control" type="password" name="user[password]" placeholder="Optional: Leave Blank To Keep Password">
+		</div>
+	</div>
+	<input type="submit" class="btn btn-default" value="Save Changes">
+</form>
