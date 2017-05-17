@@ -1,8 +1,8 @@
 <div class="row">
   <div class="activity-block center-block text-center card-style">
     <div>
-      <a href="/users/<%=exercise.user.slug%>"><img class="index-icon-mini img-circle" src="<%=profile_pic_path(exercise.user)%>" alt="Profile Pic"></a>
-      <a href="/exercises/users/<%=exercise.user.slug%>"><img class="index-icon-mini" src="<%=url("images/exercise_icon.png")%>" alt="Exercise Icon"></a>
+      <a href="/users/<%=exercise.user.slug%>"><img class="index-icon-mini img-circle" src="<%=profile_pic_path(exercise.user)%>" alt="Profile Pic" title="<%=exercise.user.name%>"></a>
+      <a href="/exercises/users/<%=exercise.user.slug%>"><img class="index-icon-mini" src="<%=url("images/exercise_icon.png")%>" alt="Exercise Icon" title="<%=first_name(exercise.user.name)%>'s Exercises"></a>
     </div>
     <h3><%=print_time(exercise.created_at)%></h3>
     <div>
