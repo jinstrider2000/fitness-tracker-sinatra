@@ -15,8 +15,22 @@
 			<ul class="nav navbar-nav navbar-left">
 				<% if @logged_in %>
 					<li class="<%=@nav[:activity][:status]%>"><a href="<%="/recent-activity"%>">Recent Activity<%="<span class=\"sr-only\"> (current)</span>" if @nav[:activity][:status] == "active"%></a></li>
-					<li class="<%=@nav[:exercise][:status]%>"><a href="<%="/exercises/users/#{@current_user.slug}"%>">Exercise<%="<span class=\"sr-only\"> (current)</span>" if @nav[:exercise][:status] == "active"%></a></li>
-					<li class="<%=@nav[:nutrition][:status]%>"><a href="<%="/foods/users/#{@current_user.slug}"%>">Meals<%="<span class=\"sr-only\"> (current)</span>" if @nav[:nutrition][:status] == "active"%></a></li>
+					<li class="dropdown <%=@nav[:exercise][:status]%>">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Exercise<%="<span class=\"sr-only\"> (current)</span>" if @nav[:exercise][:status] == "active"%><span class="caret vis-sm-inline"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="<%="/exercises/users/#{@current_user.slug}"%>">All Exercises</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="/exercises/new">New Exercise</a></li>
+						</ul>
+					</li>
+					<li class="dropdown <%=@nav[:nutrition][:status]%>">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Meals<%="<span class=\"sr-only\"> (current)</span>" if @nav[:nutrition][:status] == "active"%><span class="caret vis-sm-inline"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="<%="/foods/users/#{@current_user.slug}"%>">All Meals</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="/foods/new">New Meal</a></li>
+						</ul>
+					</li>
 				<% else %>
 					<li class="<%=@nav[:activity][:status]%>"><a href="<%="/recent-activity"%>">Recent Activity<%="<span class=\"sr-only\"> (current)</span>" if @nav[:activity][:status] == "active"%></a></li>
 				<% end %>

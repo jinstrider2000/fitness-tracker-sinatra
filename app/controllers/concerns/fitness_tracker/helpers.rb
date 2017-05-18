@@ -113,6 +113,10 @@ module FitnessTracker
         </div>
         </div>
         HTML
+      else
+        output_buffer << <<-HTML
+        <h3 class="text-center">No Activity</h3>
+        HTML
       end
       output_buffer
     end

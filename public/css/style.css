@@ -9,7 +9,7 @@ body
 {
 	position: relative;
 	min-height: 100%;
-	background: rgb(214,217,219); /* Old browsers */
+	background: rgb(214,217,219);
 }
 
 footer
@@ -72,19 +72,19 @@ main
 	border-right: 1px solid rgb(180,180,180);
 }
 
-.navbar-right .dropdown-menu
+.navbar-right .dropdown-menu, .navbar-left .dropdown-menu
 {
-	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f2f3f4+0,d1d4d6+100 */
-	background: rgb(242,243,244); /* Old browsers */
-	background: -moz-linear-gradient(top,  rgb(242,243,244) 0%, rgb(209,212,214) 100%); /* FF3.6-15 */
-	background: -webkit-linear-gradient(top,  rgb(242,243,244) 0%,rgb(209,212,214) 100%); /* Chrome10-25,Safari5.1-6 */
-	background: linear-gradient(to bottom,  rgb(242,243,244) 0%,rgb(209,212,214) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f3f4', endColorstr='#d1d4d6',GradientType=0 ); /* IE6-9 */
+	background: rgb(214,217,219);
 }
 
 .dropdown-menu .divider
 {
 	background-color: rgb(180, 180, 180);
+}
+
+.vis-sm-inline
+{
+	display: none;
 }
 
 .profile-pic-select
@@ -194,6 +194,11 @@ a.index-style:hover
 
 @media (max-width: 768px)
 {
+	.vis-sm-inline
+	{
+		display: inline-block;
+	}
+
 	footer
 	{
 		display: none;
