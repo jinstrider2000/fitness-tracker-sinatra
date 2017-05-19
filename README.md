@@ -1,6 +1,6 @@
 # Fitness Tracker
 
-A simple fitness tracker web app made in Sinatra
+A simple fitness tracker web app made in Sinatra, by Efrain Perez Jr.
 
 
 ## Installation
