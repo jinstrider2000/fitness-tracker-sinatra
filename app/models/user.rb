@@ -4,4 +4,6 @@ class User < ActiveRecord::Base
     has_many :exercises
     has_secure_password
     validates_presence_of :username, :name, :daily_calorie_goal
+    validates :username, uniqueness: true
+    validates :daily_calorie_goal, numericality: {greater_than_or_equal_to: 1}
 end

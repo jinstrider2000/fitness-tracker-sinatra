@@ -1,11 +1,15 @@
 class ApplicationController < Sinatra::Base
-  extend FitnessTracker::GlobalAppSettings
 
-  self.apply_global_settings
+  configure do
+    helpers FitnessTracker::Helpers
+    set :environment, :development
+    set :views, 'app/views'
+    set :sessions, true
+    set :session_secret, "fitness_tracker_efrain"
+  end
 
   get "/" do
-    @logged_in = logged_in?
-    if @logged_in
+    if logged_in?
       redirect "/recent-activity"
     else
       @title = "Fitness Tracker"
@@ -16,8 +20,8 @@ class ApplicationController < Sinatra::Base
 
   get "/recent-activity" do
     @nav = {:activity => {:status => "active"}, :exercise => {:status => ""}, :nutrition => {:status => ""}}
-    @logged_in = logged_in?
-    @current_user = current_user if @logged_in
+    logged_in?
+    
     @title = "Fitness Tracker - Recent Achievements"
     erb :recent_activity
   end

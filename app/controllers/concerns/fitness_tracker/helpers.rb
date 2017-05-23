@@ -3,11 +3,11 @@ module FitnessTracker
   module Helpers
   
     def logged_in?
-      !!current_user
+      !!@current_user
     end
 
     def current_user
-      User.find_by(id: session[:id])
+      @current_user ||= User.find_by(id: session[:id])
     end
 
     def first_name(name)
