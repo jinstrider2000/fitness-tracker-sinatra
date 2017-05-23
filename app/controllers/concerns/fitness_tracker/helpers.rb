@@ -145,12 +145,10 @@ module FitnessTracker
       achievements.each do |achievement|
         if achievement.activity_type == "Food"
           food = achievement.activity
-          binding.pry if food == nil
           viewing_own_activity = viewing_own_activity?(food)
           output_buffer << erb(:'foods/show', :locals => {:food => food, :viewing_own_activity => viewing_own_activity})
         else
           exercise = achievement.activity
-          binding.pry if exercise == nil
           viewing_own_activity = viewing_own_activity?(exercise)
           output_buffer << erb(:'exercises/show', :locals => {:exercise => exercise, :viewing_own_activity => viewing_own_activity})
         end
