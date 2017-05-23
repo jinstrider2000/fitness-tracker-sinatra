@@ -140,7 +140,7 @@ module FitnessTracker
     end
 
     def display_recent_achievements
-      achievements = Achievement.where("created_at > ?", 5.days.ago).order(created_at: :desc)
+      achievements = Achievement.where("created_at > ?", 14.days.ago).order(created_at: :desc)
       output_buffer = ""
       achievements.each do |achievement|
         if achievement.activity_type == "Food"
