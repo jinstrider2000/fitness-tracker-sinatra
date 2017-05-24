@@ -11,7 +11,7 @@
     <% if on_recent_activity? %>
       <p><em><%=first_name(exercise.user.name)%> did it!</em></p>
     <% end %>
-    <% if viewing_own_activity %>
+    <% if viewing_own_activity?(exercise) %>
       <div>
         <a href="/exercises/<%=exercise.id%>/edit" class="btn btn-default btn-xs" role="button">  Edit  </a>
         <form action="/exercises/<%=exercise.id%>" method="POST">

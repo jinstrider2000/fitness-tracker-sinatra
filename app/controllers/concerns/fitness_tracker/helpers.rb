@@ -3,7 +3,7 @@ module FitnessTracker
   module Helpers
   
     def logged_in?
-      !!@current_user
+      !!@current_user ||= !!current_user
     end
 
     def current_user
@@ -52,16 +52,17 @@ module FitnessTracker
       end
     end
 
-    def viewing_own_profile_while_logged_in?(user, current_user)
-      if user && current_user
-        user.id == current_user.id
+    def viewing_own_profile_while_logged_in?(user)
+      if user && @current_user
+        @viewing_own_profile_while_logged_in = user.id == @current_user.id
+      else
+        @viewing_own_profile_while_logged_in = false
       end
     end
 
     def viewing_own_activity?(activity)
-      user = current_user
-      if user && activity
-        user.id == activity.user.id
+      if @current_user && activity
+        @current_user.id == activity.user.id
       else
         false
       end

@@ -11,7 +11,7 @@
     <% if on_recent_activity? %>
       <p><em><%=first_name(food.user.name)%> says, "Deeelicious!"</em></p>
     <% end %>
-    <% if viewing_own_activity %>
+    <% if viewing_own_activity?(food) %>
       <div>
         <a href="/foods/<%=food.id%>/edit" class="btn btn-default btn-xs" role="button">  Edit  </a>
         <form action="/foods/<%=food.id%>" method="POST">

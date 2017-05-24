@@ -1,7 +1,4 @@
-class FoodController < Sinatra::Base
-  extend FitnessTracker::GlobalAppSettings
-
-  self.apply_global_settings
+class FoodController < ApplicationController
 
 	configure do
 		set :method_override, true

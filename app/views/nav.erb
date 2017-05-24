@@ -13,7 +13,7 @@
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="main_nav">
 			<ul class="nav navbar-nav navbar-left">
-				<% if @logged_in %>
+				<% if logged_in? %>
 					<li class="<%=@nav[:activity][:status]%>"><a href="<%="/recent-activity"%>">Recent Activity<%="<span class=\"sr-only\"> (current)</span>" if @nav[:activity][:status] == "active"%></a></li>
 					<li class="dropdown <%=@nav[:exercise][:status]%>">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Exercise<%="<span class=\"sr-only\"> (current)</span>" if @nav[:exercise][:status] == "active"%><span class="caret vis-sm-inline"></span></a>
@@ -36,7 +36,7 @@
 				<% end %>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<% if @logged_in %>
+				<% if logged_in? %>
 					<li><img class="img-circle mini-pic-display" src="<%=profile_pic_path(@current_user)%>" alt="Profile Pic"></li>
 					<li class="dropdown">
 						<a id="acct-dropdown" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%=first_name(@current_user.name)%><span class="caret"></span></a>

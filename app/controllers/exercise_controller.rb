@@ -1,7 +1,4 @@
-class ExerciseController < Sinatra::Base
-  extend FitnessTracker::GlobalAppSettings
-
-  self.apply_global_settings
+class ExerciseController < ApplicationController
 
 	configure do
 		set :method_override, true
@@ -10,13 +7,10 @@ class ExerciseController < Sinatra::Base
 
   get "/exercises/users/:slug" do
     @user = User.find_by(slug: params[:slug])
-    @logged_in = logged_in?
-    @current_user = current_user
     @nav = {:activity => {:status => ""}, :exercise => {:status => ""}, :nutrition => {:status => ""}}
 
     if @user
-      @viewing_own_profile_while_logged_in = viewing_own_profile_while_logged_in?(@user,@current_user)
-      if @viewing_own_profile_while_logged_in
+      if viewing_own_profile_while_logged_in?(@user)
         @nav[:exercise][:status] = "active"
         @main_heading = "My Exercise"
         @title = "Fitness Tracker - My Exercise"
@@ -34,9 +28,7 @@ class ExerciseController < Sinatra::Base
   end
 
   get "/exercises/new" do
-    @logged_in = logged_in?
-    if @logged_in
-      @current_user = current_user
+    if logged_in?
       @title = "Fitness Tracker - Add Exercise"
       @nav = {:activity => {:status => ""}, :exercise => {:status => "active"}, :nutrition => {:status => ""}}
       erb :'exercises/new'
@@ -46,14 +38,19 @@ class ExerciseController < Sinatra::Base
   end
 
   post "/exercises" do
-    @logged_in = logged_in?
     @nav = {:activity => {:status => ""}, :exercise => {:status => "active"}, :nutrition => {:status => ""}}
-    if @logged_in
-      @current_user = current_user
-      unless params[:exercise][:calories_burned] =~ /\A\d+\Z/
-        flash[:exercise_create_error] = "* Enter a numerical value for your calorie intake."
-        redirect '/exercises/new'
+    if logged_in?
+      
+      redirect '/exercises/new'
+      new_exercise = @current_user.exercises.new(params[:exercise])
+      unless new_exercise.valid?
+        if new_exercise.errors.messages[:calories_burned]
+          
+        end
+      else
+        
       end
+      flash[:exercise_create_error] = "* Enter a numerical value for your calorie intake."
       new_achievement = Achievement.create(activity: @current_user.exercises.create(params[:exercise]))
       if new_achievement.valid?
         redirect "/exercises/users/#{@current_user.slug}"
