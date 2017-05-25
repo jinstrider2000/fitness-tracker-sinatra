@@ -20,10 +20,7 @@ class LoginController < ApplicationController
         redirect '/login'
       end 
     else
-      @title = "Fitness Tracker - Error"
-      flash[:error] = "Your request cannot be completed."
-      status 403
-      body(erb :error)
+      display_err_page(403,"Your request cannot be completed.")
     end
   end
 
