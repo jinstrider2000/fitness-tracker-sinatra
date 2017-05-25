@@ -3,7 +3,7 @@
 	<h2><%=@main_heading%></h2>
 </div>
 <div class="row text-center" style="margin-bottom:25px;">
-<% if @viewing_own_profile_while_logged_in %>
+<% if viewing_own_profile_while_logged_in?(@user) %>
 	<span>
 		<a class="btn btn-primary btn-lg" role="button" href="<%=url("/exercises/new")%>">Add New</a>
 	</span>

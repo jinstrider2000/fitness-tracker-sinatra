@@ -1,20 +1,20 @@
 <div class="row">
   <div class="activity-block center-block text-center card-style">
     <div>
-      <a href="/users/<%=exercise.user.slug%>"><img class="index-icon-mini img-circle" src="<%=profile_pic_path(exercise.user)%>" alt="Profile Pic" title="<%=exercise.user.name%>"></a>
-      <a href="/exercises/users/<%=exercise.user.slug%>"><img class="index-icon-mini" src="<%=url("images/exercise_icon.png")%>" alt="Exercise Icon" title="<%=first_name(exercise.user.name)%>'s Exercises"></a>
+      <a href="/users/<%=@exercise.user.slug%>"><img class="index-icon-mini img-circle" src="<%=profile_pic_url(@exercise.user)%>" alt="Profile Pic" title="<%=@exercise.user.name%>"></a>
+      <a href="/exercises/users/<%=@exercise.user.slug%>"><img class="index-icon-mini" src="<%=url("images/exercise_icon.png")%>" alt="Exercise Icon" title="<%=@exercise.user.first_name%>'s Exercises"></a>
     </div>
-    <h3><%=print_time(exercise.created_at)%></h3>
+    <h3><%=print_time(@exercise.created_at)%></h3>
     <div>
-      <h4><%=exercise.name%>: -<%=exercise.calories_burned%> calories</h4>
+      <h4><%=@exercise.name%>: -<%=@exercise.calories_burned%> calories</h4>
     </div>
     <% if on_recent_activity? %>
-      <p><em><%=first_name(exercise.user.name)%> did it!</em></p>
+      <p><em><%=@exercise.user.first_name%> did it!</em></p>
     <% end %>
-    <% if viewing_own_activity %>
+    <% if viewing_own_activity?(@exercise) %>
       <div>
-        <a href="/exercises/<%=exercise.id%>/edit" class="btn btn-default btn-xs" role="button">  Edit  </a>
-        <form action="/exercises/<%=exercise.id%>" method="POST">
+        <a href="/exercises/<%=@exercise.id%>/edit" class="btn btn-default btn-xs" role="button">  Edit  </a>
+        <form action="/exercises/<%=@exercise.id%>" method="POST">
           <input type="hidden" name="_method" value="DELETE">
           <input class="btn btn-danger btn-xs" type="submit" value="Delete">
         </form>
