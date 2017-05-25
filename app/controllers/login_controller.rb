@@ -4,7 +4,6 @@ class LoginController < ApplicationController
     if logged_in?
       redirect "/users/#{current_user.slug}"
     else
-      @nav = {:activity => {:status => ""}, :exercise => {:status => ""}, :nutrition => {:status => ""}}
       @title = "Fitness Tracker - Sign In"
       erb :login
     end
@@ -15,14 +14,13 @@ class LoginController < ApplicationController
       user = User.find_by(username: params[:username])
       if user && user.authenticate(params[:password])
         session[:id] = user.id
-        redirect "/users/#{@current_user.slug}"
+        redirect "/users/#{current_user.slug}"
       else
         flash[:not_found_error] = "* Username or password incorrect"
         redirect '/login'
       end 
     else
       @title = "Fitness Tracker - Error"
-      @nav = {:activity => {:status => ""}, :exercise => {:status => ""}, :nutrition => {:status => ""}}
       flash[:error] = "Your request cannot be completed."
       status 403
       body(erb :error)

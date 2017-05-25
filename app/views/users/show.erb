@@ -1,12 +1,8 @@
 <div class="row" style="margin-bottom:20px;">
 	<div class="col-sm-12">
-		<img class="profile-pic-display img-circle" src="<%=profile_pic_path(@user)%>" alt="<%=first_name(@user.name)%>'s Profile Pic">
-		<% if viewing_own_profile_while_logged_in?(@user) %>
-			<h2>Welcome <%=first_name(@user.name)%>!</h2>
-			<a href="/users/<%=@user.slug%>/edit">Edit</a>
-		<% else %>
-			<h2><%=@user.name%></h2>
-		<% end %>
+		<img class="profile-pic-display img-circle" src="<%=profile_pic_url(@user)%>" alt="<%=@user.first_name%>'s Profile Pic">
+		<h2><%=@main_heading%></h2>
+		<%= "<a href=\"/users/#{@user.slug}/edit\">Edit</a>" if viewing_own_profile_while_logged_in?(@user) %>
 		<h4 id="calorie-goal-display">Daily Calorie Goal: <%=@user.daily_calorie_goal%></h4>
 	</div>
 </div>

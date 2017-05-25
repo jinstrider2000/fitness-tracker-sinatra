@@ -13,13 +13,11 @@ class ApplicationController < Sinatra::Base
       redirect "/recent-activity"
     else
       @title = "Fitness Tracker"
-      @nav = {:activity => {:status => ""}, :exercise => {:status => ""}, :nutrition => {:status => ""}}
       erb :landing
     end
   end
 
   get "/recent-activity" do
-    @nav = {:activity => {:status => "active"}, :exercise => {:status => ""}, :nutrition => {:status => ""}}
     @title = "Fitness Tracker - Recent Achievements"
     erb :recent_activity
   end

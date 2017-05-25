@@ -1,20 +1,20 @@
 <div class="row">
   <div class="activity-block center-block text-center card-style">
     <div>
-      <a href="/users/<%=food.user.slug%>"><img class="index-icon-mini img-circle" src="<%=profile_pic_path(food.user)%>" alt="Profile Pic" title="<%=food.user.name%>"></a>
-      <a href="/foods/users/<%=food.user.slug%>"><img class="index-icon-mini" src="<%=url("images/food_icon.png")%>" alt="Meal Icon" title="<%=first_name(food.user.name)%>'s Meals"></a>
+      <a href="/users/<%=@food.user.slug%>"><img class="index-icon-mini img-circle" src="<%=profile_pic_url(@food.user)%>" alt="Profile Pic" title="<%=@food.user.name%>"></a>
+      <a href="/foods/users/<%=@food.user.slug%>"><img class="index-icon-mini" src="<%=url("images/food_icon.png")%>" alt="Meal Icon" title="<%=@food.user.first_name%>'s Meals"></a>
     </div>
-    <h3><%=print_time(food.created_at)%></h3>
+    <h3><%=print_time(@food.created_at)%></h3>
     <div>
-      <h4><%=food.name%>: +<%=food.calories%> calories</h4>
+      <h4><%=@food.name%>: +<%=@food.calories%> calories</h4>
     </div>
     <% if on_recent_activity? %>
-      <p><em><%=first_name(food.user.name)%> says, "Deeelicious!"</em></p>
+      <p><em><%=@food.user.first_name%> says, "Deeelicious!"</em></p>
     <% end %>
-    <% if viewing_own_activity?(food) %>
+    <% if viewing_own_activity?(@food) %>
       <div>
-        <a href="/foods/<%=food.id%>/edit" class="btn btn-default btn-xs" role="button">  Edit  </a>
-        <form action="/foods/<%=food.id%>" method="POST">
+        <a href="/foods/<%=@food.id%>/edit" class="btn btn-default btn-xs" role="button">  Edit  </a>
+        <form action="/foods/<%=@food.id%>" method="POST">
           <input type="hidden" name="_method" value="DELETE">
           <input class="btn btn-danger btn-xs" type="submit" value="Delete">
         </form>

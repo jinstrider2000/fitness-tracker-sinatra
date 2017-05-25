@@ -7,30 +7,23 @@ class ExerciseController < ApplicationController
 
   get "/exercises/users/:slug" do
     @user = User.find_by(slug: params[:slug])
-    @nav = {:activity => {:status => ""}, :exercise => {:status => ""}, :nutrition => {:status => ""}}
-
     if @user
       if viewing_own_profile_while_logged_in?(@user)
-        @nav[:exercise][:status] = "active"
         @main_heading = "My Exercise"
         @title = "Fitness Tracker - My Exercise"
       else
-        @main_heading = "#{first_name(@user.name)}'s Exercise"
-        @title = "Fitness Tracker - #{first_name(@user.name)}'s Exercise"
+        @main_heading = "#{@user.first_name}'s Exercise"
+        @title = "Fitness Tracker - #{@user.first_name}'s Exercise"
       end
       erb :'exercises/index'
     else
-      @title = "Fitness Tracker - Error"
-      flash[:error] = "The user you are looking for doesn't exist."
-      status 404
-      body(erb :error)
+      display_err_page(404,"The user you are looking for doesn't exist.")
     end
   end
 
   get "/exercises/new" do
     if logged_in?
       @title = "Fitness Tracker - Add Exercise"
-      @nav = {:activity => {:status => ""}, :exercise => {:status => "active"}, :nutrition => {:status => ""}}
       erb :'exercises/new'
     else
       redirect '/'
@@ -38,109 +31,66 @@ class ExerciseController < ApplicationController
   end
 
   post "/exercises" do
-    @nav = {:activity => {:status => ""}, :exercise => {:status => "active"}, :nutrition => {:status => ""}}
     if logged_in?
-      
-      redirect '/exercises/new'
-      new_exercise = @current_user.exercises.new(params[:exercise])
+      new_exercise = current_user.exercises.new(params[:exercise])
       unless new_exercise.valid?
-        if new_exercise.errors.messages[:calories_burned]
-          
-        end
-      else
-        
-      end
-      flash[:exercise_create_error] = "* Enter a numerical value for your calorie intake."
-      new_achievement = Achievement.create(activity: @current_user.exercises.create(params[:exercise]))
-      if new_achievement.valid?
-        redirect "/exercises/users/#{@current_user.slug}"
-      else
-        flash[:exercise_create_error] = "* Please fill out all fields."
+        flash[:exercise_create_error] = new_exercise.errors.details[:calories_burned].any?{|detail| detail[:error] == :not_a_number} ? "* Enter a numerical value for your calories consumed." : "* Please fill out all fields."
         redirect '/exercises/new'
+      else
+        new_exercise.save
+        new_achievement = Achievement.create(activity: new_exercise)
+        redirect "/exercises/users/#{current_user.slug}"
       end
     else
-      @title = "Fitness Tracker - Error"
-      flash[:error] = "Your request cannot be completed."
-      status 403
-      body(erb :error)
+      display_err_page(403, "Your request cannot be completed.")
     end
   end
 
   get "/exercises/:id" do
-    @logged_in = logged_in?
-    @current_user = current_user
-    @nav = {:activity => {:status => ""}, :exercise => {:status => "active"}, :nutrition => {:status => ""}}
     @title = "Fitness Tracker - Exercise"
-    exercise = Exercise.find_by(id: params[:id])
-    viewing_own_activity = viewing_own_activity?(exercise)
-    if exercise
-      erb(:'exercises/show', :locals => {:exercise => exercise, :viewing_own_activity => viewing_own_activity})
+    @exercise = Exercise.find_by(id: params[:id])
+    if @exercise
+      erb :'exercises/show'
     else
-      @title = "Fitness Tracker - Error"
-      flash[:error] = "The exercise stat you are looking for doesn't exist."
-      status 404
-      body(erb :error)
+      display_err_page(404, "The exercise stat you are looking for doesn't exist.")
     end
   end
 
   get "/exercises/:id/edit" do
-    exercise = Exercise.find_by(id: params[:id])
-    @logged_in = logged_in?
-    @current_user = current_user
-    @nav = {:activity => {:status => ""}, :exercise => {:status => "active"}, :nutrition => {:status => ""}}
-    viewing_own_activity = viewing_own_activity?(exercise)
-
-    if @logged_in && viewing_own_activity
+    @exercise = Exercise.find_by(id: params[:id])
+    if viewing_own_activity?(@exercise)
       @title = "Fitness Tracker - Edit Exercise"
-      erb(:'exercises/edit', :locals => {:exercise => exercise, :viewing_own_activity => viewing_own_activity})
+      erb :'exercises/edit'
     else
-      @title = "Fitness Tracker - Error"
-      flash[:error] = "Your request cannot be completed."
-      status 403
-      body(erb :error)
+      display_err_page(403, "Your request cannot be completed.")
     end
   end
 
   patch "/exercises/:id" do
-    @logged_in = logged_in?
-    @current_user = current_user
-    @nav = {:activity => {:status => ""}, :exercise => {:status => "active"}, :nutrition => {:status => ""}}
-    unless params[:exercise][:calories_burned] =~ /\A\d+\Z/
-      flash[:exercise_edit_error] = "* Enter a numerical value for your calorie intake."
-      redirect "/exercises/#{params[:id]}/edit"
-    end
     exercise = Exercise.find_by(id: params[:id])
-    if @logged_in && viewing_own_activity?(exercise)
-      exercise.update(params[:exercise])
-      if exercise.valid? 
-        redirect "/exercises/users/#{current_user.slug}"
-      else
-        flash[:exercise_edit_error] = "* Please fill out all fields."
+    if viewing_own_activity?(exercise)
+      temp_ex = Exercise.new(params[:exercise])
+      unless temp_ex.valid?
+        flash[:exercise_edit_error] = temp_ex.errors.details[:calories_burned].any?{|detail| detail[:error] == :not_a_number} ? "* Enter a numerical value for your calories consumed." : "* Please fill out all fields."
         redirect "/exercises/#{params[:id]}/edit"
+      else
+        exercise.update(params[:exercise])
+        redirect "/exercises/users/#{current_user.slug}"
       end
     else
-      @title = "Fitness Tracker - Error"
-      flash[:error] = "Your request cannot be completed."
-      status 403
-      body(erb :error)
+      display_err_page(403, "Your request cannot be completed.")
     end
   end
 
   delete "/exercises/:id" do
-    @logged_in = logged_in?
-    @current_user = current_user
-    @nav = {:activity => {:status => ""}, :exercise => {:status => "active"}, :nutrition => {:status => ""}}
     exercise = Exercise.find_by(id: params[:id])
-    if @logged_in && viewing_own_activity?(exercise)
+    if viewing_own_activity?(exercise)
       Achievement.find_by(activity: exercise).destroy
       exercise.destroy
       redirect_dir = referred_by_recent_activity? ? "/recent-activity" : "/exercises/users/#{current_user.slug}" 
       redirect redirect_dir
     else
-      @title = "Fitness Tracker - Error"
-      flash[:error] = "Your request cannot be completed."
-      status 403
-      body(erb :error)
+      display_err_page(403, "Your request cannot be completed.")
     end
   end
 

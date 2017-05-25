@@ -3,15 +3,11 @@ module FitnessTracker
   module Helpers
   
     def logged_in?
-      !!@current_user ||= !!current_user
+      !!current_user
     end
 
     def current_user
       @current_user ||= User.find_by(id: session[:id])
-    end
-
-    def first_name(name)
-      name.split(" ")[0]
     end
 
     def recent_exercises(user)
@@ -53,16 +49,16 @@ module FitnessTracker
     end
 
     def viewing_own_profile_while_logged_in?(user)
-      if user && @current_user
-        @viewing_own_profile_while_logged_in = user.id == @current_user.id
+      if user && current_user
+        user.id == @current_user.id
       else
-        @viewing_own_profile_while_logged_in = false
+        false
       end
     end
 
     def viewing_own_activity?(activity)
-      if @current_user && activity
-        @current_user.id == activity.user.id
+      if current_user && activity
+        current_user.id == activity.user.id
       else
         false
       end
@@ -126,14 +122,9 @@ module FitnessTracker
       !!(request.path_info =~ /\/recent-activity/)
     end
 
-    def profile_pic_path(user)
+    def profile_pic_url(user)
       profile_pic_file = Dir.glob(File.join("public","images","users","#{user.id}","*profilepic*")).first.match(/(?<=\/)\d+_profilepic.+/)[0]
       url("images/users/#{user.id}/#{profile_pic_file}")
-    end
-
-    def profile_pic_dir(user)
-      profile_pic_file = Dir.glob(File.join("public","images","users","#{user.id}","*profilepic*")).first.match(/(?<=\/)\d+_profilepic.+/)[0]
-      [File.join("public","images","users","#{user.id}",profile_pic_file), profile_pic_file]
     end
 
     def referred_by_recent_activity?
@@ -145,16 +136,25 @@ module FitnessTracker
       output_buffer = ""
       achievements.each do |achievement|
         if achievement.activity_type == "Food"
-          food = achievement.activity
-          viewing_own_activity = viewing_own_activity?(food)
-          output_buffer << erb(:'foods/show', :locals => {:food => food, :viewing_own_activity => viewing_own_activity})
+          @food = achievement.activity
+          output_buffer << erb(:'foods/show')
         else
-          exercise = achievement.activity
-          viewing_own_activity = viewing_own_activity?(exercise)
-          output_buffer << erb(:'exercises/show', :locals => {:exercise => exercise, :viewing_own_activity => viewing_own_activity})
+          @exercise = achievement.activity
+          output_buffer << erb(:'exercises/show')
         end
       end
       output_buffer
+    end
+
+    def link_status(link)
+      request.path_info =~ /#{link}/ ? "active" : ""
+    end
+
+    def display_err_page(status_code,fls_msg)
+      @title = "Fitness Tracker - Error"
+      flash[:error] = fls_msg
+      status status_code
+      body(erb :error)
     end
 
   end
