@@ -19,13 +19,13 @@ class UserController < ApplicationController
     unless new_user.valid?
       flash[:username_error] = "* That username is already taken." if new_user.errors.details[:username].any?{|detail| detail[:error] == :taken}
       flash[:calorie_error] = "* Invalid number for your daily calorie goal." if new_user.errors.details[:daily_calorie_goal].any?{|detail| detail[:error] == :not_a_number || detail[:error] == :greater_than_or_equal_to || detail[:error] == :blank}
-      flash[:image_error] = "* Please upload an image." if FitnessTracker::ImageSaver.image_present_and_valid?(params)
+      flash[:image_error] = "* Please upload an image." if UserService::ImageSaver.image_present_and_valid?(params)
       flash[:invalid_error] = "* Please fill out all fields." if new_user.errors.details[:username].any?{|detail| detail[:error]==:blank} || new_user.errors.details[:password].any?{|detail| detail[:error]==:blank} || new_user.errors.details[:name].any?{|detail| detail[:error]==:blank}
       redirect '/signup'
     else
       new_user.save
       new_user.create_slug
-      FitnessTracker::ImageSaver.save_profile_pic(new_user.id, params)
+      UserService::ImageSaver.save_profile_pic(new_user.id, params)
       redirect "/login"
     end
   end
@@ -66,7 +66,7 @@ class UserController < ApplicationController
         redirect "/users/#{params[:slug]}/edit"
       else
         user.create_slug
-        FitnessTracker::ImageSaver.update_profile_pic(user.id, params)
+        UserService::ImageSaver.update_profile_pic(user.id, params)
         redirect "/users/#{user.slug}"
       end
     else

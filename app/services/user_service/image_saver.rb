@@ -1,4 +1,4 @@
-module FitnessTracker
+module UserService
   module ImageSaver
 
     def self.profile_pic_dir_and_file(id)
