@@ -43,4 +43,4 @@ The gem is available as open source under the terms of the [MIT License](http://
 
 Find me on Twitter: [@Efrain_P_Jr](https://twitter.com/@Efrain_P_Jr)
 
-Also, my blog: [http://one-line-at-a-time.com](One Line at a Time)
+Also, my blog: [http://one-line-at-a-time.com](One Line \(of code\) at a Time)
