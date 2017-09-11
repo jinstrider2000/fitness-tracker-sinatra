@@ -31,7 +31,7 @@ This will download any dependencies for development.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/jinstrider2000/fitness_tracker
+Bug reports and pull requests are welcome on GitHub at https://github.com/jinstrider2000/fitness-tracker-sinatra
 
 ## Version Changes
 
