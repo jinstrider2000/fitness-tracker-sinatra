@@ -1,4 +1,4 @@
-# Fitness Tracker
+# Fitness Tracker (Sinatra)
 
 A simple fitness tracker web app made in Sinatra, by Efrain Perez Jr.
 
@@ -39,7 +39,7 @@ None
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+This app is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
 
 Find me on Twitter: [@Efrain_P_Jr](https://twitter.com/@Efrain_P_Jr)
 
